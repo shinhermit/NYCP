@@ -43,11 +43,6 @@ public class IncarcerateService implements IncarcerateRemote
         motive.setMotiveLabel("label "+fileNumber);
         motive.setMotiveNumber(fileNumber+1);
         
-        Incarceration incarceration = new Incarceration(fileNumber);
-        
-        incarceration.setDateOfIncarceration(dateOfIncarceration);
-        incarceration.setMotiveNumber(motive);
-        
         // look in data base if a case with the file number exists
         CriminalCase criminalCase = new CriminalCase(fileNumber+2, "j"+fileNumber);
         if(criminalCase.getCriminalCasePK().getCriminalCaseNumber() == null)
@@ -62,13 +57,20 @@ public class IncarcerateService implements IncarcerateRemote
         pcc.setCriminalCase(criminalCase);
         pcc.setPrisoner(prisoner);
         
+        Incarceration incarceration = new Incarceration(fileNumber);
+        
+        incarceration.setPrisonFileNumber(fileNumber);
+        incarceration.setPrisonerCriminalCase(pcc);
+        incarceration.setDateOfIncarceration(dateOfIncarceration);
+        incarceration.setMotiveNumber(motive);
+        
         assert(entityManager != null);
         
         entityManager.persist(motive);
-//        entityManager.persist(criminalCase);
-//        entityManager.persist(prisoner);
-//        entityManager.persist(pcc);
-//        entityManager.persist(incarceration);
+        entityManager.persist(criminalCase);
+        entityManager.persist(prisoner);
+        entityManager.persist(pcc);
+        entityManager.persist(incarceration);
         
         return prisoner;
     }

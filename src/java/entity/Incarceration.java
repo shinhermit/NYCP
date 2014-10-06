@@ -13,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -45,6 +46,12 @@ public class Incarceration implements Serializable {
     @Column(name = "DATE_OF_INCARCERATION")
     @Temporal(TemporalType.DATE)
     private Date dateOfIncarceration;
+    @JoinColumns({
+        @JoinColumn(name = "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER", insertable = false, updatable = false),
+        @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
+        @JoinColumn(name = "JURISDICTION_NAME", referencedColumnName = "JURISDICTION_NAME")})
+    @ManyToOne(optional = false)
+    private PrisonerCriminalCase prisonerCriminalCase;
     @JoinColumn(name = "MOTIVE_NUMBER", referencedColumnName = "MOTIVE_NUMBER")
     @ManyToOne(optional = false)
     private Motive motiveNumber;
@@ -70,6 +77,14 @@ public class Incarceration implements Serializable {
 
     public void setDateOfIncarceration(Date dateOfIncarceration) {
         this.dateOfIncarceration = dateOfIncarceration;
+    }
+
+    public PrisonerCriminalCase getPrisonerCriminalCase() {
+        return prisonerCriminalCase;
+    }
+
+    public void setPrisonerCriminalCase(PrisonerCriminalCase prisonerCriminalCase) {
+        this.prisonerCriminalCase = prisonerCriminalCase;
     }
 
     public Motive getMotiveNumber() {

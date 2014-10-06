@@ -8,6 +8,8 @@ package entity;
 
 import entity.primaryKeys.PrisonerCriminalCasePK;
 import java.io.Serializable;
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -15,8 +17,10 @@ import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +35,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "PrisonerCriminalCase.findByCriminalCaseNumber", query = "SELECT p FROM PrisonerCriminalCase p WHERE p.prisonerCriminalCasePK.criminalCaseNumber = :criminalCaseNumber"),
     @NamedQuery(name = "PrisonerCriminalCase.findByJurisdictionName", query = "SELECT p FROM PrisonerCriminalCase p WHERE p.prisonerCriminalCasePK.jurisdictionName = :jurisdictionName")})
 public class PrisonerCriminalCase implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisonerCriminalCase")
+    private Collection<Incarceration> incarcerationCollection;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected PrisonerCriminalCasePK prisonerCriminalCasePK;
@@ -101,6 +107,15 @@ public class PrisonerCriminalCase implements Serializable {
     @Override
     public String toString() {
         return "entity.PrisonerCriminalCase[ prisonerCriminalCasePK=" + prisonerCriminalCasePK + " ]";
+    }
+
+    @XmlTransient
+    public Collection<Incarceration> getIncarcerationCollection() {
+        return incarcerationCollection;
+    }
+
+    public void setIncarcerationCollection(Collection<Incarceration> incarcerationCollection) {
+        this.incarcerationCollection = incarcerationCollection;
     }
     
 }
