@@ -31,47 +31,43 @@ public class IncarcerateService implements IncarcerateRemote
     public Prisoner incarcerate(String fileNumber, String name, String surname,
             Date dateOfBirth, String placeOfBirth, Date dateOfIncarceration)
     {
-        Prisoner incarcerated = new Prisoner();
+        Prisoner prisoner = new Prisoner();
         
-        incarcerated.setGivenName(name);
-        incarcerated.setSurname(surname);
-        incarcerated.setDateOfBirth(dateOfBirth);
-        incarcerated.setPlaceOfBirth(placeOfBirth);
-        incarcerated.setPrisonFileNumber(fileNumber);
-//        incarcerated.setPrisonerCriminalCaseCollection(null);
-        
-        Incarceration incarceration = new Incarceration();
-        
-        incarceration.setDateOfIncarceration(dateOfIncarceration);
-        incarceration.setPrisonFileNumber(fileNumber);
-//        incarceration.setMotiveNumber(null);
+        prisoner.setGivenName(name);
+        prisoner.setSurname(surname);
+        prisoner.setDateOfBirth(dateOfBirth);
+        prisoner.setPlaceOfBirth(placeOfBirth);
+        prisoner.setPrisonFileNumber(fileNumber);
+//        prisoner.setPrisonerCriminalCaseCollection(null);
         
         Motive motive = new Motive();
         motive.setMotiveLabel("Fake motive label");
-        motive.setMotiveNumber("FakeNumber");
+        motive.setMotiveNumber("1213");
 //        motive.setIncarcerationCollection(null);
         
+        Incarceration incarceration = new Incarceration(fileNumber);
+        
+        incarceration.setDateOfIncarceration(dateOfIncarceration);
+        incarceration.setMotiveNumber(motive);
+        
         // look in data base if a case with the file number exists
-        CriminalCase criminalCase = new CriminalCase();
+        CriminalCase criminalCase = new CriminalCase("1416", "fake_juridiction_name");
         
         criminalCase.setDateOfCriminalCase(dateOfIncarceration); // Not true
 //        criminalCase.setPrisonerCriminalCaseCollection(null);
         
-        PrisonerCriminalCase pcc = new PrisonerCriminalCase();
+        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber, "5678", "fake_juridiction_name");
         pcc.setCriminalCase(criminalCase);
-        pcc.setPrisoner(incarcerated);
+        pcc.setPrisoner(prisoner);
         
         assert(entityManager != null);
         
-        entityManager.getTransaction().begin();
-        entityManager.persist(motive);
-        entityManager.persist(incarceration);
-        entityManager.persist(incarcerated);
-        entityManager.persist(criminalCase);
-        entityManager.persist(pcc);
-        entityManager.getTransaction().commit();
+//        entityManager.persist(motive);
+//        entityManager.persist(criminalCase);
+        entityManager.persist(prisoner);
+//        entityManager.persist(pcc);
+//        entityManager.persist(incarceration);
         
-        return incarcerated;
+        return prisoner;
     }
-    
 }

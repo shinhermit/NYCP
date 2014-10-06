@@ -13,6 +13,6 @@
     </head>
     <body>
         <h1>Success!</h1>
-        <p>Incarcerated: ${incarcerated["name"]} ${incarcerated.surname}</p>
+        <p>Incarcerated: ${incarcerated["givenName"]} ${incarcerated.surname}</p>
     </body>
 </html>
