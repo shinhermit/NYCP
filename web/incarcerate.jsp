@@ -17,7 +17,7 @@
               name="keywords" />
     </head>
     <body>
-        <form action="/NYCP/incarcerate/new" enctype="application/x-www-form-urlencoded" method="post">
+        <form action="incarcerate/new" enctype="application/x-www-form-urlencoded" method="post">
             <h1>New York City Penitentiary (© <a href="mailto:Franck.Barbier@FranckBarbier.com">Franck.Barbier@FranckBarbier.com</a>)
                 - Incarcerate</h1>
             <h2>
