@@ -38,12 +38,10 @@ public class IncarcerateService implements IncarcerateRemote
         prisoner.setDateOfBirth(dateOfBirth);
         prisoner.setPlaceOfBirth(placeOfBirth);
         prisoner.setPrisonFileNumber(fileNumber);
-//        prisoner.setPrisonerCriminalCaseCollection(null);
         
         Motive motive = new Motive();
         motive.setMotiveLabel("Fake motive label");
-        motive.setMotiveNumber("1213");
-//        motive.setIncarcerationCollection(null);
+        motive.setMotiveNumber(fileNumber+1);
         
         Incarceration incarceration = new Incarceration(fileNumber);
         
@@ -51,22 +49,21 @@ public class IncarcerateService implements IncarcerateRemote
         incarceration.setMotiveNumber(motive);
         
         // look in data base if a case with the file number exists
-        CriminalCase criminalCase = new CriminalCase("1416", "fake_juridiction_name");
+        CriminalCase criminalCase = new CriminalCase(fileNumber+2, "fake_juridiction_name");
         
         criminalCase.setDateOfCriminalCase(dateOfIncarceration); // Not true
-//        criminalCase.setPrisonerCriminalCaseCollection(null);
         
-        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber, "5678", "fake_juridiction_name");
+        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber, fileNumber+3, "fake_juridiction_name");
         pcc.setCriminalCase(criminalCase);
         pcc.setPrisoner(prisoner);
         
         assert(entityManager != null);
         
-//        entityManager.persist(motive);
-//        entityManager.persist(criminalCase);
+        entityManager.persist(motive);
+        entityManager.persist(criminalCase);
         entityManager.persist(prisoner);
-//        entityManager.persist(pcc);
-//        entityManager.persist(incarceration);
+        entityManager.persist(pcc);
+        entityManager.persist(incarceration);
         
         return prisoner;
     }
