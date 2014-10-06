@@ -40,7 +40,7 @@ public class IncarcerateService implements IncarcerateRemote
         prisoner.setPrisonFileNumber(fileNumber);
         
         Motive motive = new Motive();
-        motive.setMotiveLabel("Fake motive label");
+        motive.setMotiveLabel("label "+fileNumber);
         motive.setMotiveNumber(fileNumber+1);
         
         Incarceration incarceration = new Incarceration(fileNumber);
@@ -49,21 +49,26 @@ public class IncarcerateService implements IncarcerateRemote
         incarceration.setMotiveNumber(motive);
         
         // look in data base if a case with the file number exists
-        CriminalCase criminalCase = new CriminalCase(fileNumber+2, "fake_juridiction_name");
+        CriminalCase criminalCase = new CriminalCase(fileNumber+2, "j"+fileNumber);
+        if(criminalCase.getCriminalCasePK().getCriminalCaseNumber() == null)
+            throw new IllegalStateException();
+        System.err.println("\n\n\n\n"+criminalCase.getCriminalCasePK().getCriminalCaseNumber()+"\n\n\n\n");
+                
         
         criminalCase.setDateOfCriminalCase(dateOfIncarceration); // Not true
         
-        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber, fileNumber+3, "fake_juridiction_name");
+        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber,
+                criminalCase.getCriminalCasePK().getCriminalCaseNumber(), "j"+fileNumber);
         pcc.setCriminalCase(criminalCase);
         pcc.setPrisoner(prisoner);
         
         assert(entityManager != null);
         
         entityManager.persist(motive);
-        entityManager.persist(criminalCase);
-        entityManager.persist(prisoner);
-        entityManager.persist(pcc);
-        entityManager.persist(incarceration);
+//        entityManager.persist(criminalCase);
+//        entityManager.persist(prisoner);
+//        entityManager.persist(pcc);
+//        entityManager.persist(incarceration);
         
         return prisoner;
     }
