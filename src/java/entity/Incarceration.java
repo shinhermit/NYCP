@@ -10,32 +10,26 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author josuah
- */
 @Entity
-@Table(name = "INCARCERATION")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Incarceration.findAll", query = "SELECT i FROM Incarceration i"),
-    @NamedQuery(name = "Incarceration.findByPrisonFileNumber", query = "SELECT i FROM Incarceration i WHERE i.prisonFileNumber = :prisonFileNumber"),
-    @NamedQuery(name = "Incarceration.findByDateOfIncarceration", query = "SELECT i FROM Incarceration i WHERE i.dateOfIncarceration = :dateOfIncarceration")})
+@Table(name="INCARCERATION")
+@SecondaryTable(name="MOTIVE", 
+                pkJoinColumns=@PrimaryKeyJoinColumn(name="M"))
 public class Incarceration implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -43,19 +37,18 @@ public class Incarceration implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "PRISON_FILE_NUMBER")
     private String prisonFileNumber;
+    
     @Column(name = "DATE_OF_INCARCERATION")
     @Temporal(TemporalType.DATE)
     private Date dateOfIncarceration;
-    @JoinColumns({
-        @JoinColumn(name = "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER", insertable = false, updatable = false),
-        @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
-        @JoinColumn(name = "JURISDICTION_NAME", referencedColumnName = "JURISDICTION_NAME")})
-    @ManyToOne(optional = false)
-    private PrisonerCriminalCase prisonerCriminalCase;
+    
     @JoinColumn(name = "MOTIVE_NUMBER", referencedColumnName = "MOTIVE_NUMBER")
     @ManyToOne(optional = false)
-    private Motive motiveNumber;
-
+    private Integer motiveNumber;
+    
+    @Column(name = "MOTIVE_LABEL", table = "MOTIVE")    
+    private String motiveLabel;
+    
     public Incarceration() {
     }
 
@@ -79,19 +72,11 @@ public class Incarceration implements Serializable {
         this.dateOfIncarceration = dateOfIncarceration;
     }
 
-    public PrisonerCriminalCase getPrisonerCriminalCase() {
-        return prisonerCriminalCase;
-    }
-
-    public void setPrisonerCriminalCase(PrisonerCriminalCase prisonerCriminalCase) {
-        this.prisonerCriminalCase = prisonerCriminalCase;
-    }
-
-    public Motive getMotiveNumber() {
+    public Integer getMotiveNumber() {
         return motiveNumber;
     }
 
-    public void setMotiveNumber(Motive motiveNumber) {
+    public void setMotiveNumber(Integer motiveNumber) {
         this.motiveNumber = motiveNumber;
     }
 
@@ -118,6 +103,20 @@ public class Incarceration implements Serializable {
     @Override
     public String toString() {
         return "entity.Incarceration[ prisonFileNumber=" + prisonFileNumber + " ]";
+    }
+
+    /**
+     * @return the motiveLabel
+     */
+    public String getMotiveLabel() {
+        return motiveLabel;
+    }
+
+    /**
+     * @param motiveLabel the motiveLabel to set
+     */
+    public void setMotiveLabel(String motiveLabel) {
+        this.motiveLabel = motiveLabel;
     }
     
 }

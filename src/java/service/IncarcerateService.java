@@ -10,7 +10,6 @@ import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Motive;
 import entity.Prisoner;
-import entity.PrisonerCriminalCase;
 import java.util.Date;
 import service.remote.IncarcerateRemote;
 import javax.ejb.Stateless;
@@ -52,24 +51,24 @@ public class IncarcerateService implements IncarcerateRemote
         
         criminalCase.setDateOfCriminalCase(dateOfIncarceration); // Not true
         
-        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber,
-                criminalCase.getCriminalCasePK().getCriminalCaseNumber(), "j"+fileNumber);
-        pcc.setCriminalCase(criminalCase);
-        pcc.setPrisoner(prisoner);
+//        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber,
+//                criminalCase.getCriminalCasePK().getCriminalCaseNumber(), "j"+fileNumber);
+//        pcc.setCriminalCase(criminalCase);
+//        pcc.setPrisoner(prisoner);
         
         Incarceration incarceration = new Incarceration(fileNumber);
         
         incarceration.setPrisonFileNumber(fileNumber);
-        incarceration.setPrisonerCriminalCase(pcc);
+        //incarceration.setPrisonerCriminalCase(pcc);
         incarceration.setDateOfIncarceration(dateOfIncarceration);
-        incarceration.setMotiveNumber(motive);
+        //incarceration.setMotiveNumber(motive);
         
         assert(entityManager != null);
         
         entityManager.persist(motive);
         entityManager.persist(criminalCase);
         entityManager.persist(prisoner);
-        entityManager.persist(pcc);
+        //entityManager.persist(pcc);
         entityManager.persist(incarceration);
         
         return prisoner;

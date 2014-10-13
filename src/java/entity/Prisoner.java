@@ -45,7 +45,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Prisoner.findByGivenName", query = "SELECT p FROM Prisoner p WHERE p.givenName = :givenName"),
     @NamedQuery(name = "Prisoner.findBySurname", query = "SELECT p FROM Prisoner p WHERE p.surname = :surname"),
     @NamedQuery(name = "Prisoner.findByDateOfBirth", query = "SELECT p FROM Prisoner p WHERE p.dateOfBirth = :dateOfBirth"),
-    @NamedQuery(name = "Prisoner.findByPlaceOfBirth", query = "SELECT p FROM Prisoner p WHERE p.placeOfBirth = :placeOfBirth")})
+    @NamedQuery(name = "Prisoner.findByPlaceOfBirth", query = "SELECT p FROM Prisoner p WHERE p.placeOfBirth = :placeOfBirth"),
+    @NamedQuery(name = "Incarceration.findAll", query = "SELECT i FROM Incarceration i"),
+    @NamedQuery(name = "Incarceration.findByPrisonFileNumber", query = "SELECT i FROM Incarceration i WHERE i.prisonFileNumber = :prisonFileNumber"),
+    @NamedQuery(name = "Incarceration.findByDateOfIncarceration", query = "SELECT i FROM Incarceration i WHERE i.dateOfIncarceration = :dateOfIncarceration")})
 public class Prisoner implements Serializable
 {
     private static final long serialVersionUID = 1L;
