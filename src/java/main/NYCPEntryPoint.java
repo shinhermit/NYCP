@@ -1,11 +1,14 @@
 package main;
 
+import entity.CriminalCase;
 import entity.Prisoner;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.NamingException;
@@ -21,7 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author josuah
  */
 @WebServlet(name = "NYCPEntryPoint",
-        urlPatterns = {"/NYCPEntryPoint", "/incarcerate", "/incarcerate/new"})
+        urlPatterns = {"/NYCPEntryPoint", "/incarcerate", "/incarcerate/new", 
+                       "/m2m"})
 public class NYCPEntryPoint extends HttpServlet
 {
 
@@ -39,12 +43,17 @@ public class NYCPEntryPoint extends HttpServlet
     {
         javax.naming.Context jndi_context = null;
         service.remote.IncarcerateRemote incarcerateService = null;
+        //SUPPRIMER : TEST manytomany prisoner<->criminal_case : pathInfo.equals("/m2m")
+        service.remote.PrisonerRemote prisonerService = null;
         
         try
         {
             jndi_context = new javax.naming.InitialContext();
             incarcerateService =
                 (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
+            //SUPPRIMER : TEST manytomany prisoner<->criminal_case : pathInfo.equals("/m2m")
+            prisonerService =
+                (service.remote.PrisonerRemote) jndi_context.lookup("ejb/PrisonerService");
         }
         catch (NamingException ex)
         {
@@ -52,6 +61,8 @@ public class NYCPEntryPoint extends HttpServlet
         }
         
         assert(incarcerateService != null);
+        //SUPPRIMER : TEST manytomany prisoner<->criminal_case : pathInfo.equals("/m2m")
+        assert(prisonerService != null);
         
         String pathInfo = request.getServletPath();
         if(pathInfo.equals("/incarcerate"))
@@ -89,6 +100,18 @@ public class NYCPEntryPoint extends HttpServlet
             String nextJSP = "/incarcerate_success.jsp";
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
             request.setAttribute("incarcerated", incarcerated);
+            dispatcher.forward(request, response);
+        } 
+        //SUPPRIMER : TEST manytomany prisoner<->criminal_case : pathInfo.equals("/m2m")
+        else if (pathInfo.equals("/m2m"))
+        {
+            //Prisoner existingPrisoner = prisonerService.find("123");
+            Set<CriminalCase> lp = prisonerService.getCriminialCasesAssocWithPFN("123");
+            request.setAttribute("size", lp.size());
+            // forward to JSP
+            String nextJSP = "/m2m.jsp";
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(nextJSP);
+            //request.setAttribute("prisoner", existingPrisoner);
             dispatcher.forward(request, response);
         }
         

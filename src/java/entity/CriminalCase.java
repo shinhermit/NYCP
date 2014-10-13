@@ -8,12 +8,18 @@ package entity;
 
 import entity.primaryKeys.CriminalCasePK;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -42,18 +48,21 @@ public class CriminalCase implements Serializable {
     @Column(name = "DATE_OF_CRIMINAL_CASE")
     @Temporal(TemporalType.DATE)
     private Date dateOfCriminalCase;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "criminalCase")
-    private Collection<PrisonerCriminalCase> prisonerCriminalCaseCollection;
-
+    @ManyToMany(mappedBy = "criminalCaseSet", fetch = FetchType.EAGER)
+    private Set<Prisoner> prisonersInvolved;
+    
     public CriminalCase() {
+        prisonersInvolved = new HashSet();
     }
 
     public CriminalCase(CriminalCasePK criminalCasePK) {
         this.criminalCasePK = criminalCasePK;
+        prisonersInvolved = new HashSet();
     }
 
     public CriminalCase(String criminalCaseNumber, String jurisdictionName) {
         this.criminalCasePK = new CriminalCasePK(criminalCaseNumber, jurisdictionName);
+        prisonersInvolved = new HashSet();
     }
 
     public CriminalCasePK getCriminalCasePK() {
@@ -72,13 +81,18 @@ public class CriminalCase implements Serializable {
         this.dateOfCriminalCase = dateOfCriminalCase;
     }
 
-    @XmlTransient
-    public Collection<PrisonerCriminalCase> getPrisonerCriminalCaseCollection() {
-        return prisonerCriminalCaseCollection;
+    /**
+     * @return the prisoners
+     */
+    public Set<Prisoner> getPrisonersInvolved() {
+        return prisonersInvolved;
     }
 
-    public void setPrisonerCriminalCaseCollection(Collection<PrisonerCriminalCase> prisonerCriminalCaseCollection) {
-        this.prisonerCriminalCaseCollection = prisonerCriminalCaseCollection;
+    /**
+     * @param prisonersInvolved the prisoners to set
+     */
+    public void setPrisonersInvolved(Set<Prisoner> prisonersInvolved) {
+        this.prisonersInvolved = prisonersInvolved;
     }
 
     @Override

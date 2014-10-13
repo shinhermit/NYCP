@@ -7,13 +7,20 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -60,13 +67,23 @@ public class Prisoner implements Serializable
     @Size(max = 30)
     @Column(name = "PLACE_OF_BIRTH")
     private String placeOfBirth;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
-    private Collection<PrisonerCriminalCase> prisonerCriminalCaseCollection;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "PRISONER_CRIMINAL_CASE", 
+               joinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
+               },
+               inverseJoinColumns = {
+                   @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
+                   @JoinColumn(name= "JURISDICTION_NAME",     referencedColumnName = "JURISDICTION_NAME"),
+               })
+    private Set<CriminalCase> criminalCaseSet;
+    
     public Prisoner() {
+        criminalCaseSet = new HashSet();
     }
 
     public Prisoner(String prisonFileNumber) {
+        criminalCaseSet = new HashSet();
         this.prisonFileNumber = prisonFileNumber;
     }
 
@@ -110,15 +127,20 @@ public class Prisoner implements Serializable
         this.placeOfBirth = placeOfBirth;
     }
 
-    @XmlTransient
-    public Collection<PrisonerCriminalCase> getPrisonerCriminalCaseCollection() {
-        return prisonerCriminalCaseCollection;
+    /**
+     * @return the criminalCaseSet
+     */
+    public Set<CriminalCase> getCriminalCaseSet() {
+        return criminalCaseSet;
     }
 
-    public void setPrisonerCriminalCaseCollection(Collection<PrisonerCriminalCase> prisonerCriminalCaseCollection) {
-        this.prisonerCriminalCaseCollection = prisonerCriminalCaseCollection;
+    /**
+     * @param criminalCaseSet the criminalCaseSet to set
+     */
+    public void setCriminalCaseSet(Set<CriminalCase> criminalCaseSet) {
+        this.criminalCaseSet = criminalCaseSet;
     }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;
