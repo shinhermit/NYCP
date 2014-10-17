@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package service;
 
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Motive;
 import entity.Prisoner;
-import entity.PrisonerCriminalCase;
 import java.util.Date;
+import java.util.List;
 import service.remote.IncarcerateRemote;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -26,52 +20,97 @@ public class IncarcerateService implements IncarcerateRemote
 {
     @PersistenceContext(unitName = "NYCPPU")
     private EntityManager entityManager;
-    
-    @Override
-    public Prisoner incarcerate(String fileNumber, String name, String surname,
-            Date dateOfBirth, String placeOfBirth, Date dateOfIncarceration)
-    {
-        Prisoner prisoner = new Prisoner();
         
-        prisoner.setGivenName(name);
+    @Override
+    public Prisoner incarcerate(String prisonFileNumber, String givenName, String surname, 
+            Date dateOfBirth, String placeOfBirth, Date dateOfIncarceration,
+            String motiveNumber, String motiveLabel, String criminalCaseNumber,
+            String jurisdictionName, Date dateOfCriminalCase)
+    {
+        // Create a criminal case
+        CriminalCase crime = new CriminalCase(criminalCaseNumber, jurisdictionName);
+        crime.setDateOfCriminalCase(dateOfCriminalCase);
+        
+        //Create a prisoner
+        Prisoner prisoner = new Prisoner(prisonFileNumber);
+        
+        prisoner.setGivenName(givenName);
         prisoner.setSurname(surname);
         prisoner.setDateOfBirth(dateOfBirth);
         prisoner.setPlaceOfBirth(placeOfBirth);
-        prisoner.setPrisonFileNumber(fileNumber);
+
+        // Associate prisoner and criminal case
+        prisoner.addCriminalCase(crime);
         
-        Motive motive = new Motive();
-        motive.setMotiveLabel("label "+fileNumber);
-        motive.setMotiveNumber(fileNumber+1);
+        //Create an incarceration motive
+        Motive motive = new Motive(motiveNumber);
+        motive.setMotiveLabel(motiveLabel);
         
-        // look in data base if a case with the file number exists
-        CriminalCase criminalCase = new CriminalCase(fileNumber+2, "j"+fileNumber);
-        if(criminalCase.getCriminalCasePK().getCriminalCaseNumber() == null)
-            throw new IllegalStateException();
-        System.err.println("\n\n\n\n"+criminalCase.getCriminalCasePK().getCriminalCaseNumber()+"\n\n\n\n");
-                
+        // Create an incarceration
+        Incarceration incarceration = new Incarceration(prisonFileNumber);
+
+        incarceration.setCriminalCaseNumber(criminalCaseNumber);
+        incarceration.setJurisdictionName(jurisdictionName);
+        incarceration.setMotive(motive);
         
-        criminalCase.setDateOfCriminalCase(dateOfIncarceration); // Not true
-        
-        PrisonerCriminalCase pcc = new PrisonerCriminalCase(fileNumber,
-                criminalCase.getCriminalCasePK().getCriminalCaseNumber(), "j"+fileNumber);
-        pcc.setCriminalCase(criminalCase);
-        pcc.setPrisoner(prisoner);
-        
-        Incarceration incarceration = new Incarceration(fileNumber);
-        
-        incarceration.setPrisonFileNumber(fileNumber);
-        incarceration.setPrisonerCriminalCase(pcc);
+        //i.setMotiveNumber(motiveNumber);
         incarceration.setDateOfIncarceration(dateOfIncarceration);
-        incarceration.setMotiveNumber(motive);
         
         assert(entityManager != null);
         
-        entityManager.persist(motive);
-        entityManager.persist(criminalCase);
         entityManager.persist(prisoner);
-        entityManager.persist(pcc);
+        entityManager.flush();   /////////////////////////////////// ??????
+        entityManager.persist(motive);
         entityManager.persist(incarceration);
         
         return prisoner;
     }
+    
+    @Override
+    public void incarcerate(Prisoner prisoner, CriminalCase crime, Motive motive,
+            Date dateOfIncarceration)
+    {
+        incarcerate(prisoner.getPrisonFileNumber(), prisoner.getGivenName(),
+                prisoner.getSurname(), prisoner.getDateOfBirth(),
+                prisoner.getPlaceOfBirth(), dateOfIncarceration,
+                motive.getMotiveNumber(), motive.getMotiveLabel(),
+                crime.getCriminalCasePK().getCriminalCaseNumber(),
+                crime.getCriminalCasePK().getJurisdictionName(),
+                crime.getDateOfCriminalCase());
+    }
+    
+    public Incarceration getIncarceration (String prisonFileNumber)
+    {
+        assert(entityManager != null);
+        
+        return entityManager.find(Incarceration.class, prisonFileNumber);
+    }
+
+    @Override
+    public List<Incarceration> findAll()
+    {
+        javax.persistence.criteria.CriteriaQuery criteriaQuery =
+                entityManager.getCriteriaBuilder().createQuery();
+        
+        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public List<Incarceration> findInRange(int startIndex, int endIndex)
+    {
+        javax.persistence.criteria.CriteriaQuery criteriaQuery =
+                entityManager.getCriteriaBuilder().createQuery();
+        
+        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
+        
+        javax.persistence.Query query = entityManager.createQuery(criteriaQuery);
+        
+        query.setMaxResults(endIndex - startIndex + 1);
+        query.setFirstResult(startIndex);
+        
+        return query.getResultList();
+    }
 }
+    

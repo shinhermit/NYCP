@@ -1,20 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package entity;
 
 import entity.primaryKeys.CriminalCasePK;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -22,12 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,82 +29,135 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "CriminalCase.findByCriminalCaseNumber", query = "SELECT c FROM CriminalCase c WHERE c.criminalCasePK.criminalCaseNumber = :criminalCaseNumber"),
     @NamedQuery(name = "CriminalCase.findByJurisdictionName", query = "SELECT c FROM CriminalCase c WHERE c.criminalCasePK.jurisdictionName = :jurisdictionName"),
     @NamedQuery(name = "CriminalCase.findByDateOfCriminalCase", query = "SELECT c FROM CriminalCase c WHERE c.dateOfCriminalCase = :dateOfCriminalCase")})
-public class CriminalCase implements Serializable {
+public class CriminalCase implements Serializable
+{
     private static final long serialVersionUID = 1L;
+    
     @EmbeddedId
     protected CriminalCasePK criminalCasePK;
+    
     @Column(name = "DATE_OF_CRIMINAL_CASE")
     @Temporal(TemporalType.DATE)
     private Date dateOfCriminalCase;
+    
     @ManyToMany(mappedBy = "criminalCaseSet", fetch = FetchType.EAGER)
     private Set<Prisoner> prisonersInvolved;
     
-    public CriminalCase() {
-        prisonersInvolved = new HashSet();
+    public CriminalCase()
+    {
+        this.criminalCasePK = new CriminalCasePK();
     }
 
-    public CriminalCase(CriminalCasePK criminalCasePK) {
+    public CriminalCase(CriminalCasePK criminalCasePK)
+    {
         this.criminalCasePK = criminalCasePK;
-        prisonersInvolved = new HashSet();
     }
 
-    public CriminalCase(String criminalCaseNumber, String jurisdictionName) {
+    public CriminalCase(String criminalCaseNumber, String jurisdictionName)
+    {
         this.criminalCasePK = new CriminalCasePK(criminalCaseNumber, jurisdictionName);
-        prisonersInvolved = new HashSet();
     }
 
-    public CriminalCasePK getCriminalCasePK() {
+    public CriminalCasePK getCriminalCasePK()
+    {
         return criminalCasePK;
     }
 
-    public void setCriminalCasePK(CriminalCasePK criminalCasePK) {
+    public void setCriminalCasePK(CriminalCasePK criminalCasePK)
+    {
         this.criminalCasePK = criminalCasePK;
     }
 
-    public Date getDateOfCriminalCase() {
+    public Date getDateOfCriminalCase()
+    {
         return dateOfCriminalCase;
     }
 
-    public void setDateOfCriminalCase(Date dateOfCriminalCase) {
+    public void setDateOfCriminalCase(Date dateOfCriminalCase)
+    {
         this.dateOfCriminalCase = dateOfCriminalCase;
+    }
+
+    public String getCriminalCaseNumber()
+    {
+        return this.criminalCasePK.getCriminalCaseNumber();
+    }
+
+    public void setCriminalCaseNumber(String criminalCaseNumber)
+    {
+        this.criminalCasePK.setCriminalCaseNumber(criminalCaseNumber);
+    }
+
+    public String getJurisdictionName()
+    {
+        return this.criminalCasePK.getJurisdictionName();
+    }
+
+    public void setJurisdictionName(String jurisdictionName)
+    {
+        this.criminalCasePK.setJurisdictionName(jurisdictionName);
     }
 
     /**
      * @return the prisoners
      */
-    public Set<Prisoner> getPrisonersInvolved() {
+    public Set<Prisoner> getPrisonersInvolved()
+    {
         return prisonersInvolved;
     }
 
     /**
      * @param prisonersInvolved the prisoners to set
      */
-    public void setPrisonersInvolved(Set<Prisoner> prisonersInvolved) {
+    public void setPrisonersInvolved(Set<Prisoner> prisonersInvolved)
+    {
         this.prisonersInvolved = prisonersInvolved;
+    }
+    
+    /**
+     * Sets the given prisoner as involed in this criminal case.
+     * @param prisoner the prisoner which is to be set the given as involed in this criminal case.
+     */
+    public void addInvolvedPrisoner(Prisoner prisoner)
+    {
+        if(this.prisonersInvolved == null)
+        {
+            this.prisonersInvolved = new HashSet<>();
+        }
+        
+        this.prisonersInvolved.add(prisoner);
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (criminalCasePK != null ? criminalCasePK.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof CriminalCase)) {
+    public boolean equals(Object object)
+    {
+        if (!(object instanceof CriminalCase))
+        {
             return false;
         }
-        CriminalCase other = (CriminalCase) object;
-        if ((this.criminalCasePK == null && other.criminalCasePK != null) || (this.criminalCasePK != null && !this.criminalCasePK.equals(other.criminalCasePK))) {
-            return false;
+        else
+        {
+            CriminalCase other = (CriminalCase) object;
+            
+            if ((this.criminalCasePK == null && other.criminalCasePK != null) || (this.criminalCasePK != null && !this.criminalCasePK.equals(other.criminalCasePK))) {
+                return false;
+            }
         }
+        
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "entity.CriminalCase[ criminalCasePK=" + criminalCasePK + " ]";
     }
     
