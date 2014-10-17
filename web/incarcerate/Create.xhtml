@@ -47,7 +47,9 @@
                 <h:link outcome="/index" value="#{bundle.CreateIncarcerationIndexLink}"/>
             </h:form>
             <h:form>
-                <h:commandButton action="#{incarcerateManageBean.prepareView('xx')}" value="OuvrirXX" />
+                <h:commandLink action="#{incarcerateManageBean.prepareView}" value="View XX">
+                    <f:param name="prisonFileNumber" value="xx" />
+                </h:commandLink>
                 <h:commandButton action="#{incarcerateManageBean.prepareList()}" value="Liste" />
             </h:form>
         </ui:define>

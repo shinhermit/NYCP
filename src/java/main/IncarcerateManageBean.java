@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -28,7 +29,7 @@ import service.remote.IncarcerateRemote;
 @ManagedBean
 @RequestScoped
 public class IncarcerateManageBean {
-    
+    @ManagedProperty(value="#{param.prisonFileNumber}")
     private String prisonFileNumber;
     private String criminalCaseNumber;
     private String jurisdictionName;
@@ -90,8 +91,8 @@ public class IncarcerateManageBean {
         return prepareIncarcerate();
     }
     
-    public String prepareView (String prisonFileNumber) {
-        System.err.println(prisonFileNumber);
+    public String prepareView () {
+        System.err.println(getPrisonFileNumber());
         javax.naming.Context jndi_context = null;
         
         try {
@@ -102,7 +103,7 @@ public class IncarcerateManageBean {
             Logger.getLogger(IncarcerateManageBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Map<String, Object> iData = incarcerateService.getIncarcerateData(prisonFileNumber);
+        Map<String, Object> iData = incarcerateService.getIncarcerateData(getPrisonFileNumber());
         
         setPrisonFileNumber((String) iData.get("prisonFileNumber"));
         setCriminalCaseNumber((String) iData.get("criminalCaseNumber"));
@@ -217,6 +218,10 @@ public class IncarcerateManageBean {
     }
 
     public List<Incarceration> getItems() {
+        if (items == null) {
+            prepareList();
+        }
+        
         return items;
     }
 
