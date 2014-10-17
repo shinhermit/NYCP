@@ -6,8 +6,10 @@
 
 package service.remote;
 
+import entity.Incarceration;
 import entity.Prisoner;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import javax.ejb.Remote;
 
@@ -20,4 +22,8 @@ public interface IncarcerateRemote
             String jurisdictionName, Date dateOfCriminalCase);
     
     public Map<String, Object> getIncarcerateData(String prisonFileNumber);
+    
+    public List<Incarceration> findAll();
+    
+    public List<Incarceration> findRange(int[] range);
 }

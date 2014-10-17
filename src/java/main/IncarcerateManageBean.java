@@ -5,8 +5,10 @@
  */
 package main;
 
+import entity.Incarceration;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +43,8 @@ public class IncarcerateManageBean {
     private String placeOfBirth;
     
     private IncarcerateRemote incarcerateService = null;
+    
+    private List<Incarceration> items;
     
     /**
      * Creates a new instance of IncarcerateManageBean
@@ -87,6 +91,7 @@ public class IncarcerateManageBean {
     }
     
     public String prepareView (String prisonFileNumber) {
+        System.err.println(prisonFileNumber);
         javax.naming.Context jndi_context = null;
         
         try {
@@ -113,9 +118,23 @@ public class IncarcerateManageBean {
         return "View";
     }
     
-    public void list () {
+    public String prepareList () {
+        javax.naming.Context jndi_context = null;
         
+        try {
+            jndi_context = new javax.naming.InitialContext();
+            incarcerateService =
+                (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
+        } catch (NamingException ex) {
+            Logger.getLogger(IncarcerateManageBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        items = incarcerateService.findAll();
+        
+        return "List";
     }
+    
+    
     
     public String getPrisonFileNumber() {
         return prisonFileNumber;
@@ -195,6 +214,14 @@ public class IncarcerateManageBean {
 
     public void setPlaceOfBirth(String placeOfBirth) {
         this.placeOfBirth = placeOfBirth;
+    }
+
+    public List<Incarceration> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Incarceration> items) {
+        this.items = items;
     }
     
     

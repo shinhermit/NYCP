@@ -15,6 +15,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import service.remote.IncarcerateRemote;
 import javax.ejb.Stateless;
@@ -157,5 +158,24 @@ public class IncarcerateService implements IncarcerateRemote
         return iData;
     }
     
+    public List<Incarceration> findAll() {
+        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Incarceration.class));
+        
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    public List<Incarceration> findRange(int[] range) {
+        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Incarceration.class));
+        javax.persistence.Query q = entityManager.createQuery(cq);
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        
+        return q.getResultList();
+    }
+
+    
     
 }
+    
