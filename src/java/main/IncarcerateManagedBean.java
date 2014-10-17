@@ -1,25 +1,19 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package main;
 
+import entity.CriminalCase;
 import entity.Incarceration;
-import java.io.IOException;
+import entity.Motive;
+import entity.Prisoner;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.naming.NamingException;
-import javax.persistence.Temporal;
-import static javax.persistence.TemporalType.DATE;
+import service.remote.EntityRetriverRemote;
 import service.remote.IncarcerateRemote;
 
 /**
@@ -28,211 +22,138 @@ import service.remote.IncarcerateRemote;
  */
 @ManagedBean
 @RequestScoped
-public class IncarcerateManagedBean {
-    @ManagedProperty(value="#{param.prisonFileNumber}")
-    private String prisonFileNumber;
-    private String criminalCaseNumber;
-    private String jurisdictionName;
-    @Temporal(DATE)
+public class IncarcerateManagedBean
+{
+    private Prisoner prisoner;
+    private CriminalCase criminalCase;
+    private Motive motive;
     private Date dateOfIncarceration;
-    private String motiveNumber;
-    private String motiveLabel;
-    private String givenName;
-    private String surname;
-    @Temporal(DATE)
-    private Date dateOfBirth;
-    private String placeOfBirth;
     
-    private IncarcerateRemote incarcerateService = null;
-    
-    private List<Incarceration> items;
+    private IncarcerateRemote incarcerateService;
+    private EntityRetriverRemote entityRetriver;
     
     /**
      * Creates a new instance of IncarcerateManageBean
      */
-    public IncarcerateManagedBean() {
-        
-    }
-
-    private void reset () {
-        setPrisonFileNumber("");
-        setCriminalCaseNumber("");
-        setJurisdictionName("");
-        setDateOfIncarceration(null);
-        setMotiveNumber("");
-        setMotiveLabel("");
-        setGivenName("");
-        setSurname("");
-        setDateOfBirth(null);
-        setPlaceOfBirth("");
+    public IncarcerateManagedBean()
+    {
+        this.prisoner = new Prisoner();
+        this.criminalCase = new CriminalCase();
+        this.motive = new Motive();
     }
     
-    public String prepareIncarcerate() {
-               
+    private void lookUpIncarcerateService()
+    {
+        if(this.incarcerateService == null)
+        {
+            try
+            {
+                javax.naming.Context jndi_context = new javax.naming.InitialContext();
+                
+                this.incarcerateService =
+                    (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
+            }
+            catch (NamingException ex)
+            {
+                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
+    private void lookUpEntityRetriver()
+    {
+        if(this.entityRetriver == null)
+        {
+            try
+            {
+                javax.naming.Context jndi_context = new javax.naming.InitialContext();
+                
+                this.entityRetriver =
+                    (service.remote.EntityRetriverRemote) jndi_context.lookup("ejb/EntityRetriver");
+            }
+            catch (NamingException ex)
+            {
+                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+        
+    public String incarcerate ()
+    {
+        this.lookUpIncarcerateService();
+        
+        incarcerateService.incarcerate(this.prisoner, this.criminalCase,
+                this.motive, this.dateOfIncarceration);
+        
         return "Create";
     }
-        
-    public String incarcerate () {
-        javax.naming.Context jndi_context = null;
-        
-        try {
-            jndi_context = new javax.naming.InitialContext();
-            incarcerateService =
-                (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
-        } catch (NamingException ex) {
-            Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        incarcerateService.incarcerate(
-                prisonFileNumber, givenName, surname, dateOfBirth, placeOfBirth, 
-                dateOfIncarceration, motiveNumber, motiveLabel, 
-                criminalCaseNumber, jurisdictionName, dateOfBirth);
-        
-        return prepareIncarcerate();
-    }
     
-    public String prepareView () {
-        System.err.println("#########################################################");
-        System.err.println("#########################################################");
-        System.err.println("#########################################################");
-        System.err.println("#########################################################");
-        System.err.println("#########################################################");
-        System.err.println(getPrisonFileNumber());
-        javax.naming.Context jndi_context = null;
+    public String ViewIncarceration()
+    {
+        FacesContext context = FacesContext.getCurrentInstance();
         
-        try {
-            jndi_context = new javax.naming.InitialContext();
-            incarcerateService =
-                (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
-        } catch (NamingException ex) {
-            Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        Map<String, Object> iData = incarcerateService.getIncarcerateData(getPrisonFileNumber());
+        Map<String,String> params =
+                context.getExternalContext().getRequestParameterMap();
         
-        setPrisonFileNumber((String) iData.get("prisonFileNumber"));
-        setCriminalCaseNumber((String) iData.get("criminalCaseNumber"));
-        setJurisdictionName((String) iData.get("jurisdictionName"));
-        setDateOfIncarceration((Date) iData.get("dateOfIncarceration"));
-        setMotiveNumber((String) iData.get("motiveNumber"));
-        setMotiveLabel((String) iData.get("motiveLabel"));
-        setGivenName((String) iData.get("givenName"));
-        setSurname((String) iData.get("surname"));
-        setPlaceOfBirth((String) iData.get("placeOfBirth"));
-        setDateOfBirth((Date) iData.get("dateOfBirth"));
+        String prisonFileNumber =  params.get("prisonFileNumber");
+        
+        this.lookUpEntityRetriver();
+        
+        Incarceration incarceration = entityRetriver.findIncarceration(prisonFileNumber);
+        
+        this.prisoner = entityRetriver.findPrisoner(prisonFileNumber);
+        this.criminalCase = entityRetriver.findCriminalCase(incarceration.getCriminalCaseNumber(),
+                incarceration.getJurisdictionName());
+        this.motive = incarceration.getMotive();
+        this.dateOfIncarceration = incarceration.getDateOfIncarceration();
 
         return "View";
     }
     
-    public String prepareList () {
-        javax.naming.Context jndi_context = null;
+    public List<Incarceration> getItems() 
+    {
+        this.lookUpIncarcerateService();
         
-        try {
-            jndi_context = new javax.naming.InitialContext();
-            incarcerateService =
-                (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
-        } catch (NamingException ex) {
-            Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        items = incarcerateService.findAll();
-        
-        return "List";
-    }
-    
-    
-    
-    public String getPrisonFileNumber() {
-        return prisonFileNumber;
+        return incarcerateService.findAll();
     }
 
-    public void setPrisonFileNumber(String prisonFileNumber) {
-        this.prisonFileNumber = prisonFileNumber;
+    public Prisoner getPrisoner()
+    {
+        return prisoner;
     }
 
-    public String getCriminalCaseNumber() {
-        return criminalCaseNumber;
+    public void setPrisoner(Prisoner prisoner)
+    {
+        this.prisoner = prisoner;
     }
 
-    public void setCriminalCaseNumber(String criminalCaseNumber) {
-        this.criminalCaseNumber = criminalCaseNumber;
+    public CriminalCase getCriminalCase()
+    {
+        return criminalCase;
     }
 
-    public String getJurisdictionName() {
-        return jurisdictionName;
+    public void setCriminalCase(CriminalCase criminalCase)
+    {
+        this.criminalCase = criminalCase;
     }
 
-    public void setJurisdictionName(String jurisdictionName) {
-        this.jurisdictionName = jurisdictionName;
+    public Motive getMotive()
+    {
+        return motive;
     }
 
-    public Date getDateOfIncarceration() {
+    public void setMotive(Motive motive)
+    {
+        this.motive = motive;
+    }
+
+    public Date getDateOfIncarceration()
+    {
         return dateOfIncarceration;
     }
 
-    public void setDateOfIncarceration(Date dateOfIncarceration) {
+    public void setDateOfIncarceration(Date dateOfIncarceration)
+    {
         this.dateOfIncarceration = dateOfIncarceration;
     }
-
-    public String getMotiveNumber() {
-        return motiveNumber;
-    }
-
-    public void setMotiveNumber(String motiveNumber) {
-        this.motiveNumber = motiveNumber;
-    }
-
-    public String getMotiveLabel() {
-        return motiveLabel;
-    }
-
-    public void setMotiveLabel(String motiveLabel) {
-        this.motiveLabel = motiveLabel;
-    }
-
-    public String getGivenName() {
-        return givenName;
-    }
-
-    public void setGivenName(String givenName) {
-        this.givenName = givenName;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getPlaceOfBirth() {
-        return placeOfBirth;
-    }
-
-    public void setPlaceOfBirth(String placeOfBirth) {
-        this.placeOfBirth = placeOfBirth;
-    }
-
-    public List<Incarceration> getItems() {
-        if (items == null) {
-            prepareList();
-        }
-        
-        return items;
-    }
-
-    public void setItems(List<Incarceration> items) {
-        this.items = items;
-    }
-    
-    
-    
 }

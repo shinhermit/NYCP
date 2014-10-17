@@ -21,13 +21,13 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListIncarcerationTitle_motiveNumber}"/>
                             </f:facet>
-                            <h:outputText value="#{item.motiveNumber}"/>
+                            <h:outputText value="#{item.motive.motiveNumber}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListIncarcerationTitle_motiveLabel}"/>
                             </f:facet>
-                            <h:outputText value="#{item.motiveLabel}"/>
+                            <h:outputText value="#{item.motive.motiveLabel}"/>
                         </h:column>
                         <h:column>
                             <f:facet name="header">
@@ -59,7 +59,8 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                            <h:commandLink action="#{incarcerateManagedBean.prepareView}" value="#{bundle.ListIncarcerationViewLink}">
+                            <h:commandLink action="#{incarcerateManagedBean.ViewIncarceration}"
+                                           value="#{bundle.ListIncarcerationViewLink}">
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
