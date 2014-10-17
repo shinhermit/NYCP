@@ -59,7 +59,7 @@ public class IncarcerateService implements IncarcerateRemote
         assert(entityManager != null);
         
         entityManager.persist(prisoner);
-        entityManager.flush();   /////////////////////////////////// ??????
+        entityManager.flush();   //TODO: what's this useful for ??????????????????
         entityManager.persist(motive);
         entityManager.persist(incarceration);
         
