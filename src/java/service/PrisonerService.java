@@ -8,6 +8,7 @@ package service;
 
 import entity.CriminalCase;
 import entity.Prisoner;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -41,5 +42,22 @@ public class PrisonerService implements PrisonerRemote
         return p.getCriminalCaseSet();
     }
     
-    
+    @Override
+    public List<Prisoner> findAll() {
+        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Prisoner.class));
+        
+        return entityManager.createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Prisoner> findRange(int[] range) {
+        javax.persistence.criteria.CriteriaQuery cq = entityManager.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(Prisoner.class));
+        javax.persistence.Query q = entityManager.createQuery(cq);
+        q.setMaxResults(range[1] - range[0] + 1);
+        q.setFirstResult(range[0]);
+        
+        return q.getResultList();
+    }
 }

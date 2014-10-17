@@ -16,32 +16,32 @@
             <h:form>
                 <h:panelGrid columns="2">
                     <h:outputLabel value="Motive number" for="motiveNumber" />
-                    <h:inputText id="motiveNumber" value="#{incarcerateManageBean.motiveNumber}" title="Motive Number" />
+                    <h:inputText id="motiveNumber" value="#{incarcerateManagedBean.motiveNumber}" title="Motive Number" />
                     <h:outputLabel value="Motive label" for="motiveLabel" />
-                    <h:inputText id="motiveLabel" value="#{incarcerateManageBean.motiveLabel}" title="Motive label" />
+                    <h:inputText id="motiveLabel" value="#{incarcerateManagedBean.motiveLabel}" title="Motive label" />
                     <h:outputLabel value="prisonFileNumber" for="prisonFileNumber" />
-                    <h:inputText id="prisonFileNumber" value="#{incarcerateManageBean.prisonFileNumber}" title="#{bundle.CreateIncarcerationTitle_prisonFileNumber}" />
+                    <h:inputText id="prisonFileNumber" value="#{incarcerateManagedBean.prisonFileNumber}" title="#{bundle.CreateIncarcerationTitle_prisonFileNumber}" />
                     <h:outputLabel value="#{bundle.CreateIncarcerationLabel_criminalCaseNumber}" for="criminalCaseNumber" />
-                    <h:inputText id="criminalCaseNumber" value="#{incarcerateManageBean.criminalCaseNumber}" title="#{bundle.CreateIncarcerationTitle_criminalCaseNumber}" />
+                    <h:inputText id="criminalCaseNumber" value="#{incarcerateManagedBean.criminalCaseNumber}" title="#{bundle.CreateIncarcerationTitle_criminalCaseNumber}" />
                     <h:outputLabel value="#{bundle.CreateIncarcerationLabel_jurisdictionName}" for="jurisdictionName" />
-                    <h:inputText id="jurisdictionName" value="#{incarcerateManageBean.jurisdictionName}" title="#{bundle.CreateIncarcerationTitle_jurisdictionName}" />
+                    <h:inputText id="jurisdictionName" value="#{incarcerateManagedBean.jurisdictionName}" title="#{bundle.CreateIncarcerationTitle_jurisdictionName}" />
                     <h:outputLabel value="#{bundle.CreateIncarcerationLabel_dateOfIncarceration}" for="dateOfIncarceration" />
-                    <h:inputText id="dateOfIncarceration" value="#{incarcerateManageBean.dateOfIncarceration}" title="#{bundle.CreateIncarcerationTitle_dateOfIncarceration}" >
+                    <h:inputText id="dateOfIncarceration" value="#{incarcerateManagedBean.dateOfIncarceration}" title="#{bundle.CreateIncarcerationTitle_dateOfIncarceration}" >
                         <f:convertDateTime pattern="dd-MM-yyyy" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.CreatePrisonerLabel_givenName}" for="givenName" />
-                    <h:inputText id="givenName" value="#{incarcerateManageBean.givenName}" title="#{bundle.CreatePrisonerTitle_givenName}" />
+                    <h:inputText id="givenName" value="#{incarcerateManagedBean.givenName}" title="#{bundle.CreatePrisonerTitle_givenName}" />
                     <h:outputLabel value="#{bundle.CreatePrisonerLabel_surname}" for="surname" />
-                    <h:inputText id="surname" value="#{incarcerateManageBean.surname}" title="#{bundle.CreatePrisonerTitle_surname}" />
+                    <h:inputText id="surname" value="#{incarcerateManagedBean.surname}" title="#{bundle.CreatePrisonerTitle_surname}" />
                     <h:outputLabel value="#{bundle.CreatePrisonerLabel_dateOfBirth}" for="dateOfBirth" />
-                    <h:inputText id="dateOfBirth" value="#{incarcerateManageBean.dateOfBirth}" title="#{bundle.CreatePrisonerTitle_dateOfBirth}" >
+                    <h:inputText id="dateOfBirth" value="#{incarcerateManagedBean.dateOfBirth}" title="#{bundle.CreatePrisonerTitle_dateOfBirth}" >
                         <f:convertDateTime pattern="dd-MM-yyyy" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.CreatePrisonerLabel_placeOfBirth}" for="placeOfBirth" />
-                    <h:inputText id="placeOfBirth" value="#{incarcerateManageBean.placeOfBirth}" title="#{bundle.CreatePrisonerTitle_placeOfBirth}" />
+                    <h:inputText id="placeOfBirth" value="#{incarcerateManagedBean.placeOfBirth}" title="#{bundle.CreatePrisonerTitle_placeOfBirth}" />
                 </h:panelGrid>
                 <br />
-                <h:commandButton action="#{incarcerateManageBean.incarcerate}" value="#{bundle.CreateIncarcerationSaveLink}" />
+                <h:commandButton action="#{incarcerateManagedBean.incarcerate}" value="#{bundle.CreateIncarcerationSaveLink}" />
                 <br />
                 <br />
             </h:form>
