@@ -41,17 +41,14 @@
                     <h:inputText id="placeOfBirth" value="#{incarcerateManageBean.placeOfBirth}" title="#{bundle.CreatePrisonerTitle_placeOfBirth}" />
                 </h:panelGrid>
                 <br />
-                <h:commandLink action="#{incarcerateManageBean.incarcerate}" value="#{bundle.CreateIncarcerationSaveLink}" />
+                <h:commandButton action="#{incarcerateManageBean.incarcerate}" value="#{bundle.CreateIncarcerationSaveLink}" />
                 <br />
                 <br />
-                <h:link outcome="/index" value="#{bundle.CreateIncarcerationIndexLink}"/>
             </h:form>
-            <h:form>
-                <h:commandLink action="#{incarcerateManageBean.prepareView}" value="View XX">
-                    <f:param name="prisonFileNumber" value="xx" />
-                </h:commandLink>
-                <h:commandButton action="#{incarcerateManageBean.prepareList()}" value="Liste" />
-            </h:form>
+            <h:link outcome="/index" value="#{bundle.CreateIncarcerationIndexLink}"/>
+            <br />
+            <br />
+            <h:link outcome="List" value="#{bundle.ListIncarcerationLink}" />
         </ui:define>
     </ui:composition>
 

@@ -41,13 +41,13 @@
             </h:panelGrid>
             <br />
             <br />
-            <h:link value="#{bundle.ViewIncarcerationShowAllLink}" outcome="View" />
+            <h:link outcome="Create" value="#{bundle.ViewIncarcerationCreateLink}" />
             <br />
             <br />
-            <h:commandLink action="#{incarcerateManageBean.prepareIncarcerate}" value="#{bundle.ViewIncarcerationCreateLink}" />
+            <h:link outcome="/index" value="#{bundle.CreateIncarcerationIndexLink}"/>
             <br />
             <br />
-            <h:link outcome="/index" value="#{bundle.ViewIncarcerationIndexLink}"/>
+            <h:link outcome="List" value="#{bundle.ListIncarcerationLink}" />
         </ui:define>
     </ui:composition>
 

@@ -59,21 +59,17 @@
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
-                           
-                            
-                                <h:commandLink action="#{incarcerateManageBean.prepareView}" value="#{bundle.ListIncarcerationViewLink}">
-                                    <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
-                                </h:commandLink>
-                            
+                            <h:commandLink action="#{incarcerateManageBean.prepareView}" value="#{bundle.ListIncarcerationViewLink}">
+                                <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
+                            </h:commandLink>
                         </h:column>
                     </h:dataTable>
                 </h:panelGroup>
-                <br />
-                <h:commandLink action="#{incarcerateManageBean.prepareIncarcerate}" value="#{bundle.ListIncarcerationCreateLink}" />
-                <br />
-                <br />
-                <h:link outcome="/index" value="#{bundle.ListIncarcerationIndexLink}"/>
             </h:form>
+            <h:link outcome="/index" value="#{bundle.CreateCriminalCaseIndexLink}" />
+            <br />
+            <br />
+            <h:link outcome="Create" value="#{bundle.CreateIncarcerationTitle}" />
         </ui:define>
     </ui:composition>
 
