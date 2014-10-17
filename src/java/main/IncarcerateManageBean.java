@@ -68,8 +68,7 @@ public class IncarcerateManageBean {
     }
     
     public String prepareIncarcerate() {
-        reset();
-        
+               
         return "Create";
     }
         
@@ -92,6 +91,11 @@ public class IncarcerateManageBean {
     }
     
     public String prepareView () {
+        System.err.println("#########################################################");
+        System.err.println("#########################################################");
+        System.err.println("#########################################################");
+        System.err.println("#########################################################");
+        System.err.println("#########################################################");
         System.err.println(getPrisonFileNumber());
         javax.naming.Context jndi_context = null;
         
