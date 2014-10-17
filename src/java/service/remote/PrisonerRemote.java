@@ -8,6 +8,7 @@ package service.remote;
 
 import entity.CriminalCase;
 import entity.Prisoner;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Remote;
 
@@ -27,4 +28,7 @@ public interface PrisonerRemote
      * @return 
      */
     public Set<CriminalCase> getCriminialCasesAssocWithPFN(String prisonFileNumber);
+    
+    public List<Prisoner> findAll();
+    public List<Prisoner> findRange(int[] range);
 }

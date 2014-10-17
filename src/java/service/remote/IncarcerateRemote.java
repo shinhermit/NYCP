@@ -6,17 +6,24 @@
 
 package service.remote;
 
+import entity.Incarceration;
 import entity.Prisoner;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import javax.ejb.Remote;
 
-/**
- *
- * @author josuah
- */
 @Remote
 public interface IncarcerateRemote
 {
-    public Prisoner incarcerate(String fileNumber, String name, String surname,
-            Date dateOfBirth, String placeOfBirth, Date dateOfIncarceration);
+    public Prisoner incarcerate(String prisonFileNumber, String givenName, String surname, 
+            Date dateOfBirth, String placeOfBirth, Date dateOfIncarceration,
+            String motiveNumber, String motiveLabel, String criminalCaseNumber,
+            String jurisdictionName, Date dateOfCriminalCase);
+    
+    public Map<String, Object> getIncarcerateData(String prisonFileNumber);
+    
+    public List<Incarceration> findAll();
+    
+    public List<Incarceration> findRange(int[] range);
 }

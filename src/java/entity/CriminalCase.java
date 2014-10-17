@@ -52,17 +52,14 @@ public class CriminalCase implements Serializable {
     private Set<Prisoner> prisonersInvolved;
     
     public CriminalCase() {
-        prisonersInvolved = new HashSet();
     }
 
     public CriminalCase(CriminalCasePK criminalCasePK) {
         this.criminalCasePK = criminalCasePK;
-        prisonersInvolved = new HashSet();
     }
 
     public CriminalCase(String criminalCaseNumber, String jurisdictionName) {
         this.criminalCasePK = new CriminalCasePK(criminalCaseNumber, jurisdictionName);
-        prisonersInvolved = new HashSet();
     }
 
     public CriminalCasePK getCriminalCasePK() {
