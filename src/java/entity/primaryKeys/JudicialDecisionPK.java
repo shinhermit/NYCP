@@ -12,6 +12,8 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.Temporal;
+import static javax.persistence.TemporalType.DATE;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,6 +34,7 @@ public class JudicialDecisionPK implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATE_OF_DECISION")
+    @Temporal(DATE)
     private Date dateOfDecision;
 
     public JudicialDecisionPK() {
