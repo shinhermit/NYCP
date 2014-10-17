@@ -97,9 +97,19 @@ public class IncarcerateManageBean {
             Logger.getLogger(IncarcerateManageBean.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Map<String, String> iData = incarcerateService.getIncarcerateData(prisonFileNumber);
-        setPrisonFileNumber(iData.get("prisonFileNumber"));
+        Map<String, Object> iData = incarcerateService.getIncarcerateData(prisonFileNumber);
         
+        setPrisonFileNumber((String) iData.get("prisonFileNumber"));
+        setCriminalCaseNumber((String) iData.get("criminalCaseNumber"));
+        setJurisdictionName((String) iData.get("jurisdictionName"));
+        setDateOfIncarceration((Date) iData.get("dateOfIncarceration"));
+        setMotiveNumber((String) iData.get("motiveNumber"));
+        setMotiveLabel((String) iData.get("motiveLabel"));
+        setGivenName((String) iData.get("givenName"));
+        setSurname((String) iData.get("surname"));
+        setPlaceOfBirth((String) iData.get("placeOfBirth"));
+        setDateOfBirth((Date) iData.get("dateOfBirth"));
+
         return "View";
     }
     

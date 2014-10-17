@@ -67,8 +67,9 @@ public class Prisoner implements Serializable
     @Size(max = 30)
     @Column(name = "PLACE_OF_BIRTH")
     private String placeOfBirth;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "PRISONER_CRIMINAL_CASE", 
+    
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(name = "PRISONER_CRIMINAL_CASE",
                joinColumns = {
                    @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
                },
@@ -76,14 +77,12 @@ public class Prisoner implements Serializable
                    @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
                    @JoinColumn(name= "JURISDICTION_NAME",     referencedColumnName = "JURISDICTION_NAME"),
                })
-    private Set<CriminalCase> criminalCaseSet;
+    private Set<CriminalCase> criminalCaseSet = null;
     
     public Prisoner() {
-        criminalCaseSet = new HashSet();
     }
 
     public Prisoner(String prisonFileNumber) {
-        criminalCaseSet = new HashSet();
         this.prisonFileNumber = prisonFileNumber;
     }
 
@@ -139,6 +138,17 @@ public class Prisoner implements Serializable
      */
     public void setCriminalCaseSet(Set<CriminalCase> criminalCaseSet) {
         this.criminalCaseSet = criminalCaseSet;
+    }
+    
+    /**
+     * @param criminalCase 
+     */
+    public void addCriminalCase(CriminalCase criminalCase) {
+        if (this.criminalCaseSet == null) {
+            this.criminalCaseSet = new HashSet();
+        }
+        
+        this.criminalCaseSet.add(criminalCase);
     }
     
     @Override
