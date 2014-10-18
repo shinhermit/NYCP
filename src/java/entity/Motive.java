@@ -11,8 +11,6 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,7 +21,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "MOTIVE")
-public class Motive implements Serializable {
+public class Motive implements Serializable
+{
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "MOTIVE_NUMBER")
@@ -37,41 +36,49 @@ public class Motive implements Serializable {
     
     public Motive () {}
     
-    public Motive (String motiveNumber) {
-        this.setMotiveNumber(motiveNumber);
+    public Motive (String motiveNumber)
+    {
+        this.motiveNumber = motiveNumber;
     }
     
-    public String getMotiveNumber() {
+    public String getMotiveNumber()
+    {
         return motiveNumber;
     }
 
-    public void setMotiveNumber(String motiveNumber) {
+    public void setMotiveNumber(String motiveNumber)
+    {
         this.motiveNumber = motiveNumber;
     }
 
     /**
      * @return the motiveLabel
      */
-    public String getMotiveLabel() {
+    public String getMotiveLabel()
+    {
         return motiveLabel;
     }
 
     /**
      * @param motiveLabel the motiveLabel to set
      */
-    public void setMotiveLabel(String motiveLabel) {
+    public void setMotiveLabel(String motiveLabel)
+    {
         this.motiveLabel = motiveLabel;
     }
 
-    public Set<Incarceration> getIncarcerations() {
+    public Set<Incarceration> getIncarcerations()
+    {
         return incarcerations;
     }
 
-    public void setIncarcerations(Set<Incarceration> incarcerations) {
+    public void setIncarcerations(Set<Incarceration> incarcerations)
+    {
         this.incarcerations = incarcerations;
     }
     
-    public void addIncarceration (Incarceration i) {
+    public void addIncarceration (Incarceration i)
+    {
         if (incarcerations == null) {
             incarcerations = new HashSet();
         }
@@ -80,24 +87,34 @@ public class Motive implements Serializable {
     }
     
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 7;
         hash = 71 * hash + Objects.hashCode(this.motiveNumber);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        else if (getClass() != obj.getClass())
+        {
             return false;
         }
-        final Motive other = (Motive) obj;
-        if (!Objects.equals(this.motiveNumber, other.motiveNumber)) {
-            return false;
+        else
+        {
+            final Motive other = (Motive) obj;
+            
+            if (!Objects.equals(this.motiveNumber, other.motiveNumber))
+            {
+                return false;
+            }
         }
+        
         return true;
     }
 }

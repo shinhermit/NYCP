@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.naming.NamingException;
-import service.remote.PrisonerRemote;
 
 /**
  *
@@ -25,7 +24,6 @@ import service.remote.PrisonerRemote;
 @RequestScoped
 public class JudicialDecisionManagedBean {
     private Prisoner current;
-    private PrisonerRemote prisonerService = null;
     
     /**
      * Creates a new instance of JudicialDecisionManagedBean
@@ -45,15 +43,8 @@ public class JudicialDecisionManagedBean {
     public List<Prisoner> getPrisoners () {
         javax.naming.Context jndi_context = null;
         
-        try {
-            jndi_context = new javax.naming.InitialContext();
-            prisonerService =
-                (service.remote.PrisonerRemote) jndi_context.lookup("ejb/PrisonerService");
-        } catch (NamingException ex) {
-            Logger.getLogger(JudicialDecisionManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
-        prisoners = prisonerService.findAll();
+//        prisoners = prisonerService.findAll();
         
         return prisoners;
     }

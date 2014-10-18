@@ -24,6 +24,7 @@ public class CriminalCasePK implements Serializable {
     @Size(min = 1, max = 10)
     @Column(name = "CRIMINAL_CASE_NUMBER")
     private String criminalCaseNumber;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 30)
