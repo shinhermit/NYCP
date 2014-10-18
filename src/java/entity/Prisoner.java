@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -76,7 +75,7 @@ public class Prisoner implements Serializable
     private Set<CriminalCase> criminalCaseSet = null;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
-    private Collection<JudicialDecision> judicialDecisions;
+    private Set<JudicialDecision> judicialDecisionSet;
     
     private static final long serialVersionUID = 1L;
     
@@ -159,13 +158,35 @@ public class Prisoner implements Serializable
      */
     public void addCriminalCase(CriminalCase criminalCase)
     {
-        if (this.criminalCaseSet == null) {
+        if (this.criminalCaseSet == null)
+        {
             this.criminalCaseSet = new HashSet();
         }
         
         this.criminalCaseSet.add(criminalCase);
     }
+ 
+    @XmlTransient
+    public Set<JudicialDecision> getJudicialDecisionSet()
+    {
+        return judicialDecisionSet;
+    }
+
+    public void setJudicialDecisionSet(Set<JudicialDecision> judicialDecisionCollection)
+    {
+        this.judicialDecisionSet = judicialDecisionCollection;
+    }
     
+    public void addJudicialDecision(JudicialDecision decision)
+    {
+        if(this.judicialDecisionSet == null)
+        {
+            this.judicialDecisionSet = new HashSet<>();
+        }
+        
+        this.judicialDecisionSet.add(decision); // TODO: check for existence
+    }
+   
     @Override
     public int hashCode()
     {
@@ -198,26 +219,5 @@ public class Prisoner implements Serializable
     public String toString()
     {
         return "entity.Prisoner[ prisonFileNumber=" + prisonFileNumber + " ]";
-    }
-
-    @XmlTransient
-    public Collection<JudicialDecision> getJudicialDecisions()
-    {
-        return judicialDecisions;
-    }
-
-    public void setJudicialDecisions(Collection<JudicialDecision> judicialDecisionCollection)
-    {
-        this.judicialDecisions = judicialDecisionCollection;
-    }
-    
-    public void addJudicialDecision(JudicialDecision decision)
-    {
-        if(this.judicialDecisions == null)
-        {
-            this.judicialDecisions = new HashSet<>();
-        }
-        
-        this.judicialDecisions.add(decision); // TODO: check for existence
     }
 }

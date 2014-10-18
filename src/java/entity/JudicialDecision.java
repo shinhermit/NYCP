@@ -20,12 +20,14 @@ package entity;
 import entity.primaryKeys.JudicialDecisionPK;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -43,8 +45,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "JudicialDecision.findByDateOfDecision", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class JudicialDecision implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    
     @EmbeddedId
     protected JudicialDecisionPK judicialDecisionPK;
     
@@ -52,6 +52,17 @@ public class JudicialDecision implements Serializable
             insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Prisoner prisoner;
+    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "judicialDecision")
+    private Conviction conviction;
+    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "judicialDecision")
+    private FinalDischarge finalDischarge;
+    
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "judicialDecision")
+    private ShortenedSentence shortenedSentence;
+    
+    private static final long serialVersionUID = 1L;
 
     public JudicialDecision()
     {
@@ -75,47 +86,7 @@ public class JudicialDecision implements Serializable
 
     public void setJudicialDecisionPK(JudicialDecisionPK judicialDecisionPK)
     {
-        this.judicialDecisionPK = judicialDecisionPK;
-    }
-
-    public Prisoner getPrisoner()
-    {
-        return prisoner;
-    }
-
-    public void setPrisoner(Prisoner prisoner)
-    {
-        this.prisoner = prisoner;
-    }
-
-    public String getDecisionTypeNumber()
-    {
-        return this.judicialDecisionPK.getDecisionTypeNumber();
-    }
-
-    public void setDecisionTypeNumber(String decisionTypeNumber)
-    {
-        this.judicialDecisionPK.setDecisionTypeNumber(decisionTypeNumber);
-    }
-
-    public String getPrisonFileNumber()
-    {
-        return this.judicialDecisionPK.getPrisonFileNumber();
-    }
-
-    public void setPrisonFileNumber(String prisonFileNumber)
-    {
-        this.judicialDecisionPK.setPrisonFileNumber(prisonFileNumber);
-    }
-
-    public Date getDateOfDecision()
-    {
-        return this.judicialDecisionPK.getDateOfDecision();
-    }
-
-    public void setDateOfDecision(Date dateOfDecision)
-    {
-        this.judicialDecisionPK.setDateOfDecision(dateOfDecision);
+        this.judicialDecisionPK.copy(judicialDecisionPK);
     }
 
     @Override

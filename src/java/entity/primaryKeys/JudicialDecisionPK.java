@@ -32,7 +32,8 @@ import javax.validation.constraints.Size;
  * @author josuah
  */
 @Embeddable
-public class JudicialDecisionPK implements Serializable {
+public class JudicialDecisionPK implements Serializable
+{
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 1)
@@ -91,6 +92,22 @@ public class JudicialDecisionPK implements Serializable {
     {
         this.dateOfDecision = dateOfDecision;
     }
+    
+    public void copy(JudicialDecisionPK other)
+    {
+        if(other != null)
+        {
+            this.setPrisonFileNumber(other.getPrisonFileNumber());
+            this.setDecisionTypeNumber(other.getDecisionTypeNumber());
+            this.setDateOfDecision(other.getDateOfDecision());
+        }
+        else
+        {
+            this.setPrisonFileNumber(null);
+            this.setDecisionTypeNumber(null);
+            this.setDateOfDecision(null);
+        }
+    }
 
     @Override
     public int hashCode()
@@ -131,5 +148,4 @@ public class JudicialDecisionPK implements Serializable {
                 decisionTypeNumber + ", prisonFileNumber=" + prisonFileNumber +
                 ", dateOfDecision=" + dateOfDecision + " ]";
     }
-    
 }
