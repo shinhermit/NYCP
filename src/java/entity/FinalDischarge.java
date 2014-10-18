@@ -21,27 +21,23 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author josuah
  */
 @Entity
-@Table(name = "FINAL_DISCHARGE")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "FinalDischarge.findAll", query = "SELECT f FROM FinalDischarge f"),
-    @NamedQuery(name = "FinalDischarge.findByDecisionTypeNumber", query = "SELECT f FROM FinalDischarge f WHERE f.primaryKey.decisionTypeNumber = :decisionTypeNumber"),
-    @NamedQuery(name = "FinalDischarge.findByPrisonFileNumber", query = "SELECT f FROM FinalDischarge f WHERE f.primaryKey.prisonFileNumber = :prisonFileNumber"),
-    @NamedQuery(name = "FinalDischarge.findByDateOfDecision", query = "SELECT f FROM FinalDischarge f WHERE f.primaryKey.dateOfDecision = :dateOfDecision"),
-    @NamedQuery(name = "FinalDischarge.findByDateOfFinalDischarge", query = "SELECT f FROM FinalDischarge f WHERE f.dateOfFinalDischarge = :dateOfFinalDischarge")})
-public class FinalDischarge extends AbstractDecision
+@SecondaryTable(name="CONVICTION",
+        pkJoinColumns={
+            @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="DATE_OF_DECISION")
+        })
+public class FinalDischarge extends JudicialDecision
 {
     @Column(name = "DATE_OF_FINAL_DISCHARGE")
     @Temporal(TemporalType.DATE)
@@ -79,6 +75,6 @@ public class FinalDischarge extends AbstractDecision
     @Override
     public String toString()
     {
-        return "entity.FinalDischarge[ finalDischargePK=" + this.primaryKey + " ]";
+        return "entity.FinalDischarge[ finalDischargePK=" + this.judicialDecisionPK + " ]";
     }
 }

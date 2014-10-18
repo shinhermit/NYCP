@@ -17,9 +17,9 @@
 
 package service.remote;
 
-import entity.AbstractDecision;
 import entity.Conviction;
 import entity.FinalDischarge;
+import entity.JudicialDecision;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
@@ -69,5 +69,5 @@ public interface JudicialDecisionRemote
      * @param prisoner the prisoner of which we want the existing decisions.
      * @return all the decision concerning a prisoner.
      */
-    public Set<AbstractDecision> findFor(Prisoner prisoner);
+    public Set<JudicialDecision> findFor(Prisoner prisoner);
 }

@@ -21,25 +21,21 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 
 /**
  *
  * @author josuah
  */
 @Entity
-@Table(name = "CONVICTION")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Conviction.findAll", query = "SELECT c FROM Conviction c"),
-    @NamedQuery(name = "Conviction.findByDecisionTypeNumber", query = "SELECT c FROM Conviction c WHERE c.primaryKey.decisionTypeNumber = :decisionTypeNumber"),
-    @NamedQuery(name = "Conviction.findByPrisonFileNumber", query = "SELECT c FROM Conviction c WHERE c.primaryKey.prisonFileNumber = :prisonFileNumber"),
-    @NamedQuery(name = "Conviction.findByDateOfDecision", query = "SELECT c FROM Conviction c WHERE c.primaryKey.dateOfDecision = :dateOfDecision"),
-    @NamedQuery(name = "Conviction.findByDuration", query = "SELECT c FROM Conviction c WHERE c.duration = :duration")})
-public class Conviction extends AbstractDecision
+@SecondaryTable(name="CONVICTION",
+        pkJoinColumns={
+            @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="DATE_OF_DECISION")
+        })
+public class Conviction extends JudicialDecision
 {
     @Column(name = "DURATION")
     private Integer duration;
@@ -76,6 +72,6 @@ public class Conviction extends AbstractDecision
     @Override
     public String toString()
     {
-        return "entity.Conviction[ convictionPK=" + this.primaryKey + " ]";
+        return "entity.Conviction[ convictionPK=" + this.judicialDecisionPK + " ]";
     }
 }

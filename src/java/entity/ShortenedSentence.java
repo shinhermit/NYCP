@@ -21,25 +21,21 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
 
 /**
  *
  * @author josuah
  */
 @Entity
-@Table(name = "SHORTENED_SENTENCE")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "ShortenedSentence.findAll", query = "SELECT s FROM ShortenedSentence s"),
-    @NamedQuery(name = "ShortenedSentence.findByDecisionTypeNumber", query = "SELECT s FROM ShortenedSentence s WHERE s.primaryKey.decisionTypeNumber = :decisionTypeNumber"),
-    @NamedQuery(name = "ShortenedSentence.findByPrisonFileNumber", query = "SELECT s FROM ShortenedSentence s WHERE s.primaryKey.prisonFileNumber = :prisonFileNumber"),
-    @NamedQuery(name = "ShortenedSentence.findByDateOfDecision", query = "SELECT s FROM ShortenedSentence s WHERE s.primaryKey.dateOfDecision = :dateOfDecision"),
-    @NamedQuery(name = "ShortenedSentence.findByDuration", query = "SELECT s FROM ShortenedSentence s WHERE s.duration = :duration")})
-public class ShortenedSentence extends AbstractDecision
+@SecondaryTable(name="CONVICTION",
+        pkJoinColumns={
+            @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="DATE_OF_DECISION")
+        })
+public class ShortenedSentence extends JudicialDecision
 {
     @Column(name = "DURATION")
     private Integer duration;
@@ -76,6 +72,6 @@ public class ShortenedSentence extends AbstractDecision
     @Override
     public String toString()
     {
-        return "entity.ShortenedSentence[ shortenedSentencePK=" + this.primaryKey + " ]";
+        return "entity.ShortenedSentence[ shortenedSentencePK=" + this.judicialDecisionPK + " ]";
     }
 }

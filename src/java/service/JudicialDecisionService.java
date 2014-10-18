@@ -17,9 +17,9 @@
 
 package service;
 
-import entity.AbstractDecision;
 import entity.Conviction;
 import entity.FinalDischarge;
+import entity.JudicialDecision;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
@@ -58,7 +58,7 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     }
 
     @Override
-    public Set<AbstractDecision> findFor(Prisoner prisoner)
+    public Set<JudicialDecision> findFor(Prisoner prisoner)
     {
         return null;
     }
