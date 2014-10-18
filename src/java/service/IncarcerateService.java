@@ -53,7 +53,6 @@ public class IncarcerateService implements IncarcerateRemote
         incarceration.setJurisdictionName(jurisdictionName);
         incarceration.setMotive(motive);
         
-        //i.setMotiveNumber(motiveNumber);
         incarceration.setDateOfIncarceration(dateOfIncarceration);
         
         assert(entityManager != null);
