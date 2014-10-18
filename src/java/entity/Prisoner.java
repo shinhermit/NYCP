@@ -77,6 +77,7 @@ public class Prisoner implements Serializable
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
     private Collection<JudicialDecision> judicialDecisions;
+    
     private static final long serialVersionUID = 1L;
     
     public Prisoner()
