@@ -36,7 +36,6 @@ import service.remote.JudicialDecisionRemote;
 @LocalBean
 public class JudicialDecisionService implements JudicialDecisionRemote
 {
-
     @Override
     public Conviction convict(Prisoner prisoner, Date dateOfDecision,
             Integer duration)
