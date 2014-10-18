@@ -33,9 +33,9 @@ import javax.persistence.TemporalType;
 @Entity
 @SecondaryTable(name="CONVICTION",
         pkJoinColumns={
-            @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER"),
-            @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER"),
-            @PrimaryKeyJoinColumn(name="DATE_OF_DECISION")
+            @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
+            @PrimaryKeyJoinColumn(name="DATE_OF_DECISION", referencedColumnName = "DATE_OF_DECISION")
         })
 public class FinalDischarge extends JudicialDecision
 {
