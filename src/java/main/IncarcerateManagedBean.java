@@ -1,5 +1,7 @@
 package main;
 
+import main.names.NYCPFaces;
+import main.names.NYCPServices;
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Motive;
@@ -51,7 +53,7 @@ public class IncarcerateManagedBean
                 javax.naming.Context jndi_context = new javax.naming.InitialContext();
                 
                 this.incarcerateService =
-                    (service.remote.IncarcerateRemote) jndi_context.lookup("ejb/IncarcerateService");
+                    (service.remote.IncarcerateRemote) jndi_context.lookup(NYCPServices.ejb.INCARCERATION);
             }
             catch (NamingException ex)
             {
@@ -69,7 +71,7 @@ public class IncarcerateManagedBean
                 javax.naming.Context jndi_context = new javax.naming.InitialContext();
                 
                 this.entityRetriver =
-                    (service.remote.EntityRetriverRemote) jndi_context.lookup("ejb/EntityRetriver");
+                    (service.remote.EntityRetriverRemote) jndi_context.lookup(NYCPServices.ejb.ENTITY_RETRIEVER);
             }
             catch (NamingException ex)
             {
@@ -85,7 +87,7 @@ public class IncarcerateManagedBean
         incarcerateService.incarcerate(this.prisoner, this.criminalCase,
                 this.motive, this.dateOfIncarceration);
         
-        return "Create";
+        return NYCPFaces.Incarceration.CREATE;
     }
     
     public String ViewIncarceration()
@@ -107,7 +109,7 @@ public class IncarcerateManagedBean
         this.motive = incarceration.getMotive();
         this.dateOfIncarceration = incarceration.getDateOfIncarceration();
 
-        return "View";
+        return NYCPFaces.Incarceration.VIEW;
     }
     
     public List<Incarceration> getItems() 

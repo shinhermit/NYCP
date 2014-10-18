@@ -30,8 +30,8 @@ import service.remote.EntityRetriverRemote;
  *
  * @author josuah
  */
-@Stateless(mappedName = "ejb/EntityRetriver")
-public class EntityRetriver implements EntityRetriverRemote
+@Stateless(mappedName = "ejb/EntityRetrieverService")
+public class EntityRetriever implements EntityRetriverRemote
 {
     @PersistenceContext(unitName = "NYCPPU")
     private EntityManager entityManager;
