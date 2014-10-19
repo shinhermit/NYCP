@@ -34,7 +34,7 @@ import javax.persistence.TemporalType;
  * @author Émilien Arino
  */
 @Entity
-@SecondaryTable(name="CONVICTION",
+@SecondaryTable(name="FINAL_DISCHARGE",
         pkJoinColumns={
             @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
             @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
@@ -46,7 +46,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "FinalDischarge.findByDateOfDecision", query = "SELECT f FROM FinalDischarge f WHERE f.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class FinalDischarge extends JudicialDecision
 {
-    @Column(name = "DATE_OF_FINAL_DISCHARGE")
+    @Column(name = "DATE_OF_FINAL_DISCHARGE", table = "FINAL_DISCHARGE")
     @Temporal(TemporalType.DATE)
     private Date dateOfFinalDischarge;
     

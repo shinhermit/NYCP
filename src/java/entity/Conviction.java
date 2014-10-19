@@ -40,12 +40,11 @@ import javax.persistence.SecondaryTable;
         })
 @NamedQueries({
     @NamedQuery(name = "Conviction.findAll", query = "SELECT c FROM Conviction c"),
-    @NamedQuery(name = "Conviction.findByDecisionTypeNumber", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.decisionTypeNumber = :decisionTypeNumber"),
     @NamedQuery(name = "Conviction.findByPrisonFileNumber", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "Conviction.findByDateOfDecision", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class Conviction extends JudicialDecision
 {
-    @Column(name = "DURATION")
+    @Column(name = "DURATION", table = "CONVICTION")
     private Integer duration;
     
     private static final String CONVICTION_TYPE_NYMBER = "1";

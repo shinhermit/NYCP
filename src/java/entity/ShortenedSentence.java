@@ -32,7 +32,7 @@ import javax.persistence.SecondaryTable;
  * @author Émilien Arino
  */
 @Entity
-@SecondaryTable(name="CONVICTION",
+@SecondaryTable(name="SHORTENED_SENTENCE",
         pkJoinColumns={
             @PrimaryKeyJoinColumn(name="DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
             @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
@@ -44,7 +44,7 @@ import javax.persistence.SecondaryTable;
     @NamedQuery(name = "ShortenedSentence.findByDateOfDecision", query = "SELECT s FROM ShortenedSentence s WHERE s.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class ShortenedSentence extends JudicialDecision
 {
-    @Column(name = "DURATION")
+    @Column(name = "DURATION", table = "SHORTENED_SENTENCE")
     private Integer duration;
     
     private static final String SHORTENING_TYPE_NYMBER = "3";
