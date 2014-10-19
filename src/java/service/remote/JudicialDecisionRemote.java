@@ -23,6 +23,7 @@ import entity.JudicialDecision;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Remote;
 
@@ -102,14 +103,14 @@ public interface JudicialDecisionRemote
      * @param prisonFileNumber the file number of the prisoner of which we want the existing decisions.
      * @return all the decision concerning a prisoner.
      */
-    public Set<JudicialDecision> findAll(String prisonFileNumber);
+    public List<JudicialDecision> findAll(String prisonFileNumber);
     
     /**
      * Retrieves all the decision concerning a prisoner.
      * @param prisoner the prisoner of which we want the existing decisions.
      * @return all the decision concerning a prisoner.
      */
-    public Set<JudicialDecision> findAll(Prisoner prisoner);
+    public List<JudicialDecision> findAll(Prisoner prisoner);
     
     /**
      * Retrieves the conviction decision that has been taken for the specified prisoner.

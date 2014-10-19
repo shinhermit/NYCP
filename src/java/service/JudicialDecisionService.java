@@ -23,6 +23,7 @@ import entity.JudicialDecision;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -117,15 +118,17 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     }
 
     @Override
-    public Set<JudicialDecision> findAll(String prisonFileNumber)
+    public List<JudicialDecision> findAll(String prisonFileNumber)
     {
-        return null;
+        return entityManager.createNamedQuery("JudicialDecision.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
     }
 
     @Override
-    public Set<JudicialDecision> findAll(Prisoner prisoner)
+    public List<JudicialDecision> findAll(Prisoner prisoner)
     {
-        return null;
+        return findAll(prisoner.getPrisonFileNumber());
     }
 
     @Override
