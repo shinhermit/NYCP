@@ -47,9 +47,9 @@ public abstract class JudicialDecision implements Serializable
     @EmbeddedId
     protected JudicialDecisionPK judicialDecisionPK;
     
+    @ManyToOne(optional = false)
     @JoinColumn(name = "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER",
             insertable = false, updatable = false)
-    @ManyToOne(optional = false)
     private Prisoner prisoner;
     
     private static final long serialVersionUID = 1L;
