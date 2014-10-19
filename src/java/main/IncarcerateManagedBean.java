@@ -84,7 +84,7 @@ public class IncarcerateManagedBean
     {
         this.lookUpIncarcerateService();
         
-        incarcerateService.incarcerate(this.prisoner, this.criminalCase,
+        this.incarcerateService.incarcerate(this.prisoner, this.criminalCase,
                 this.motive, this.dateOfIncarceration);
         
         return NYCPFaces.Incarceration.CREATE;

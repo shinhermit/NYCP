@@ -46,4 +46,18 @@ public class NYCPFaces
             CREATE = "Create";
         }
     }
+    
+    /**
+     * Provides the name of the faces of the judicial decisions service.
+     */
+    public static class JudicialDecision
+    {
+        /** The <i>create new incarceration</i> face. */
+        public static final String CREATE;
+        
+        static
+        {
+            CREATE = "Create";
+        }
+    }
 }
