@@ -63,9 +63,9 @@ public class NYCPFaces
         
         static
         {
-            CONVICT = "/faces/judicialDecision/Convict";
-            DISCHARGE = "/faces/judicialDecision/Discharge";
-            SHORTEN = "/faces/judicialDecision/Shorten";
+            CONVICT = "/judicialDecision/Convict";
+            DISCHARGE = "/judicialDecision/Discharge";
+            SHORTEN = "/judicialDecision/Shorten";
         }
     }
 }

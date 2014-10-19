@@ -137,11 +137,8 @@ public class JudicialDecisionManagedBean
     public String convict()
     {
         this.lookUpIncarcerateService();
-        this.lookUpEntityRetriver();
         
-        this.prisoner = entityRetriver.findPrisoner(this.getRequestParameter("prisonFileNumber"));
-        
-        this.decisionService.convict(this.prisoner,
+        this.decisionService.convict(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.duration);
         
         return NYCPFaces.JudicialDecision.CONVICT;
@@ -151,7 +148,7 @@ public class JudicialDecisionManagedBean
     {
         this.lookUpIncarcerateService();
         
-        this.decisionService.discharge(this.prisoner,
+        this.decisionService.discharge(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.dateOfDischarge);
         
         return NYCPFaces.JudicialDecision.DISCHARGE;
@@ -161,7 +158,7 @@ public class JudicialDecisionManagedBean
     {
         this.lookUpIncarcerateService();
         
-        this.decisionService.shortenSentence(this.prisoner,
+        this.decisionService.shortenSentence(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.duration);
         
         return NYCPFaces.JudicialDecision.SHORTEN;
