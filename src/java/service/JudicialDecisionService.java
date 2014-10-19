@@ -25,6 +25,8 @@ import entity.ShortenedSentence;
 import java.util.Date;
 import java.util.Set;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import service.remote.JudicialDecisionRemote;
 
 /**
@@ -36,46 +38,82 @@ import service.remote.JudicialDecisionRemote;
 @Stateless(mappedName = "ejb/JudicialDecisionService")
 public class JudicialDecisionService implements JudicialDecisionRemote
 {
+    @PersistenceContext(unitName = "NYCPPU")
+    private EntityManager entityManager;
+    
     @Override
     public Conviction convict(String prisonFileNumber, Date dateOfDecision,
             Integer duration)
     {
-        return null;
+        assert(entityManager != null);
+        
+        Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
+        
+        Conviction decision = new Conviction(prisonFileNumber, dateOfDecision);
+        decision.setPrisoner(prisoner);
+        decision.setDuration(duration);
+        
+        entityManager.persist(decision);
+        
+        return decision;
     }
     
     @Override
     public Conviction convict(Prisoner prisoner, Date dateOfDecision,
             Integer duration)
     {
-        return null;
+        return convict(prisoner.getPrisonFileNumber(), dateOfDecision,
+                duration);
     }
 
     @Override
     public FinalDischarge discharge(String prisonFileNumber,
             Date dateOfDecision, Date dateOfDischarge)
     {
-        return null;
+        assert(entityManager != null);
+        
+        Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
+        
+        FinalDischarge decision = new FinalDischarge(prisonFileNumber, dateOfDecision);
+        decision.setPrisoner(prisoner);
+        decision.setDateOfFinalDischarge(dateOfDischarge);
+        
+        entityManager.persist(decision);
+        
+        return decision;
     }
 
     @Override
     public FinalDischarge discharge(Prisoner prisoner, Date dateOfDecision,
             Date dateOfDischarge)
     {
-        return null;
+        return discharge(prisoner.getPrisonFileNumber(), dateOfDecision,
+                dateOfDischarge);
     }
 
     @Override
     public ShortenedSentence shortenSentence(String prisonFileNumber,
             Date dateOfDecision, Integer duration)
     {
-        return null;
+        assert(entityManager != null);
+        
+        Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
+        
+        ShortenedSentence decision = new ShortenedSentence(prisonFileNumber, dateOfDecision);
+        decision.setPrisoner(prisoner);
+        decision.setDuration(duration);
+        
+        entityManager.persist(decision);
+        
+        return decision;
     }
 
     @Override
     public ShortenedSentence shortenSentence(Prisoner prisoner,
             Date dateOfDecision, Integer duration)
     {
-        return null;
+        return shortenSentence(prisoner.getPrisonFileNumber(), dateOfDecision,
+                duration);
     }
 
     @Override
