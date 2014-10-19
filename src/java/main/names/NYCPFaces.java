@@ -19,7 +19,9 @@ package main.names;
 
 /**
  * Provides the differents faces of the application.
- * @author josuah
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 public class NYCPFaces
 {

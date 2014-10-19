@@ -26,7 +26,8 @@ import javax.persistence.SecondaryTable;
 
 /**
  *
- * @author josuah
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Entity
 @SecondaryTable(name="CONVICTION",

@@ -29,7 +29,8 @@ import javax.validation.constraints.Size;
 
 /**
  *
- * @author josuah
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Embeddable
 public class JudicialDecisionPK implements Serializable

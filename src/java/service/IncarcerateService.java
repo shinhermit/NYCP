@@ -12,8 +12,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
- *
- * @author josuah
+ * The service provider for the incarcerations.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/IncarcerateService")
 public class IncarcerateService implements IncarcerateRemote
@@ -76,13 +78,6 @@ public class IncarcerateService implements IncarcerateRemote
                 crime.getCriminalCasePK().getCriminalCaseNumber(),
                 crime.getCriminalCasePK().getJurisdictionName(),
                 crime.getDateOfCriminalCase());
-    }
-    
-    public Incarceration getIncarceration (String prisonFileNumber)
-    {
-        assert(entityManager != null);
-        
-        return entityManager.find(Incarceration.class, prisonFileNumber);
     }
 
     @Override

@@ -25,20 +25,34 @@ import entity.ShortenedSentence;
 import java.util.Date;
 import java.util.Set;
 import javax.ejb.Stateless;
-import javax.ejb.LocalBean;
 import service.remote.JudicialDecisionRemote;
 
 /**
- *
- * @author josuah
+ * The service provider for judicial decisions.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
-@Stateless
-@LocalBean
+@Stateless(mappedName = "ejb/JudicialDecisionService")
 public class JudicialDecisionService implements JudicialDecisionRemote
 {
     @Override
+    public Conviction convict(String prisonFileNumber, Date dateOfDecision,
+            Integer duration)
+    {
+        return null;
+    }
+    
+    @Override
     public Conviction convict(Prisoner prisoner, Date dateOfDecision,
             Integer duration)
+    {
+        return null;
+    }
+
+    @Override
+    public FinalDischarge discharge(String prisonFileNumber,
+            Date dateOfDecision, Date dateOfDischarge)
     {
         return null;
     }
@@ -51,6 +65,13 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     }
 
     @Override
+    public ShortenedSentence shortenSentence(String prisonFileNumber,
+            Date dateOfDecision, Integer duration)
+    {
+        return null;
+    }
+
+    @Override
     public ShortenedSentence shortenSentence(Prisoner prisoner,
             Date dateOfDecision, Integer duration)
     {
@@ -58,7 +79,49 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     }
 
     @Override
-    public Set<JudicialDecision> findFor(Prisoner prisoner)
+    public Set<JudicialDecision> findAll(String prisonFileNumber)
+    {
+        return null;
+    }
+
+    @Override
+    public Set<JudicialDecision> findAll(Prisoner prisoner)
+    {
+        return null;
+    }
+
+    @Override
+    public Conviction findConviction(String prisonFileNumber)
+    {
+        return null;
+    }
+
+    @Override
+    public Conviction findConviction(Prisoner prisoner)
+    {
+        return null;
+    }
+
+    @Override
+    public FinalDischarge findDischarge(String prisonFileNumber)
+    {
+        return null;
+    }
+
+    @Override
+    public FinalDischarge findDischarge(Prisoner prisoner)
+    {
+        return null;
+    }
+
+    @Override
+    public Set<ShortenedSentence> findShortening(String prisonFileNumber)
+    {
+        return null;
+    }
+
+    @Override
+    public Set<ShortenedSentence> findShortening(Prisoner prisoner)
     {
         return null;
     }

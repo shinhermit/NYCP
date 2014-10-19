@@ -27,8 +27,10 @@ import javax.persistence.PersistenceContext;
 import service.remote.EntityRetriverRemote;
 
 /**
- *
- * @author josuah
+ * The service provider to retrieve an entity.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/EntityRetrieverService")
 public class EntityRetriever implements EntityRetriverRemote
