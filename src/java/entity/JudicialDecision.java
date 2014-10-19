@@ -20,6 +20,8 @@ package entity;
 import entity.primaryKeys.JudicialDecisionPK;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -42,6 +44,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "JudicialDecision.findByDecisionTypeNumber", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.decisionTypeNumber = :decisionTypeNumber"),
     @NamedQuery(name = "JudicialDecision.findByPrisonFileNumber", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "JudicialDecision.findByDateOfDecision", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
+@DiscriminatorColumn(name="DECISION_TYPE_NUMBER", discriminatorType=DiscriminatorType.STRING)
 public abstract class JudicialDecision implements Serializable
 {
     @EmbeddedId

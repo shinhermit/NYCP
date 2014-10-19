@@ -20,6 +20,7 @@ package entity;
 import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -44,6 +45,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name = "FinalDischarge.findAll", query = "SELECT f FROM FinalDischarge f"),
     @NamedQuery(name = "FinalDischarge.findByPrisonFileNumber", query = "SELECT f FROM FinalDischarge f WHERE f.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "FinalDischarge.findByDateOfDecision", query = "SELECT f FROM FinalDischarge f WHERE f.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
+@DiscriminatorValue("2")
 public class FinalDischarge extends JudicialDecision
 {
     @Column(name = "DATE_OF_FINAL_DISCHARGE", table = "FINAL_DISCHARGE")
