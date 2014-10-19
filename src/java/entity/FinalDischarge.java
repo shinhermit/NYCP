@@ -21,6 +21,8 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
@@ -38,6 +40,10 @@ import javax.persistence.TemporalType;
             @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
             @PrimaryKeyJoinColumn(name="DATE_OF_DECISION", referencedColumnName = "DATE_OF_DECISION")
         })
+@NamedQueries({
+    @NamedQuery(name = "FinalDischarge.findAll", query = "SELECT f FROM FinalDischarge f"),
+    @NamedQuery(name = "FinalDischarge.findByPrisonFileNumber", query = "SELECT f FROM FinalDischarge f WHERE f.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
+    @NamedQuery(name = "FinalDischarge.findByDateOfDecision", query = "SELECT f FROM FinalDischarge f WHERE f.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class FinalDischarge extends JudicialDecision
 {
     @Column(name = "DATE_OF_FINAL_DISCHARGE")

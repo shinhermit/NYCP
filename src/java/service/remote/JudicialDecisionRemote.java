@@ -24,7 +24,6 @@ import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Remote;
 
 /**
@@ -145,12 +144,12 @@ public interface JudicialDecisionRemote
      * @param prisonFileNumber the file number of the prisoner of which the sentence shortening decisions are requested.
      * @return if sentence shortening decisions have been taken for the specified prisoner, these sentence shortening decisions, null otherwise.
      */
-    public Set<ShortenedSentence> findShortening(String prisonFileNumber);
+    public List<ShortenedSentence> findShortening(String prisonFileNumber);
     
     /**
      * Retrieves the sentence shortening decisions that has been taken for the specified prisoner.
      * @param prisoner the prisoner of which the sentence shortening decisions are requested.
      * @return if sentence shortening decisions have been taken for the specified prisoner, these sentence shortening decisions, null otherwise.
      */
-    public Set<ShortenedSentence> findShortening(Prisoner prisoner);
+    public List<ShortenedSentence> findShortening(Prisoner prisoner);
 }

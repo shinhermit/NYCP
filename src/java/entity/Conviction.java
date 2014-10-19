@@ -21,6 +21,8 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
 
@@ -36,6 +38,11 @@ import javax.persistence.SecondaryTable;
             @PrimaryKeyJoinColumn(name="PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
             @PrimaryKeyJoinColumn(name="DATE_OF_DECISION", referencedColumnName = "DATE_OF_DECISION")
         })
+@NamedQueries({
+    @NamedQuery(name = "Conviction.findAll", query = "SELECT c FROM Conviction c"),
+    @NamedQuery(name = "Conviction.findByDecisionTypeNumber", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.decisionTypeNumber = :decisionTypeNumber"),
+    @NamedQuery(name = "Conviction.findByPrisonFileNumber", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
+    @NamedQuery(name = "Conviction.findByDateOfDecision", query = "SELECT c FROM Conviction c WHERE c.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
 public class Conviction extends JudicialDecision
 {
     @Column(name = "DURATION")

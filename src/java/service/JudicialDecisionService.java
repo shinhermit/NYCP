@@ -24,7 +24,6 @@ import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -134,36 +133,66 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     @Override
     public Conviction findConviction(String prisonFileNumber)
     {
-        return null;
+        Conviction decision = null;
+        
+        List<Conviction> allDecisions = entityManager.createNamedQuery("Conviction.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+        
+        if(allDecisions != null)
+        {
+            if(!allDecisions.isEmpty())
+            {
+                decision = allDecisions.get(0);
+            }
+        }
+        
+        return decision;
     }
 
     @Override
     public Conviction findConviction(Prisoner prisoner)
     {
-        return null;
+        return findConviction(prisoner.getPrisonFileNumber());
     }
 
     @Override
     public FinalDischarge findDischarge(String prisonFileNumber)
     {
-        return null;
+        FinalDischarge decision = null;
+        
+        List<FinalDischarge> allDecisions = entityManager.createNamedQuery("FinalDischarge.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+        
+        if(allDecisions != null)
+        {
+            if(!allDecisions.isEmpty())
+            {
+                decision = allDecisions.get(0);
+            }
+        }
+        
+        return decision;
     }
 
     @Override
     public FinalDischarge findDischarge(Prisoner prisoner)
     {
-        return null;
+        return findDischarge(prisoner.getPrisonFileNumber());
     }
 
     @Override
-    public Set<ShortenedSentence> findShortening(String prisonFileNumber)
+    public List<ShortenedSentence> findShortening(String prisonFileNumber)
     {
-        return null;
+        return entityManager.createNamedQuery("findShortening.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
     }
 
     @Override
-    public Set<ShortenedSentence> findShortening(Prisoner prisoner)
+    public List<ShortenedSentence> findShortening(Prisoner prisoner)
     {
-        return null;
+        return findShortening(prisoner.getPrisonFileNumber());
     }
 }
