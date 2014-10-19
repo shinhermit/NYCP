@@ -64,6 +64,33 @@
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{judicialDecisionManagedBean.showConvictForm}"
+                                           value="#{bundle.ListIncarcerationConvictLink}">
+                                <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{judicialDecisionManagedBean.showDischargeForm}"
+                                           value="#{bundle.ListIncarcerationDischargeLink}">
+                                <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
+                            </h:commandLink>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{judicialDecisionManagedBean.showShorteningForm}"
+                                           value="#{bundle.ListIncarcerationShrotenSentenceLink}">
+                                <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
+                            </h:commandLink>
+                        </h:column>
                     </h:dataTable>
                 </h:panelGroup>
             </h:form>

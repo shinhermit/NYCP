@@ -53,11 +53,19 @@ public class NYCPFaces
     public static class JudicialDecision
     {
         /** The <i>create new incarceration</i> face. */
-        public static final String CREATE;
+        public static final String CONVICT;
+        
+        /** The <i>create new incarceration</i> face. */
+        public static final String DISCHARGE;
+        
+        /** The <i>create new incarceration</i> face. */
+        public static final String SHORTEN;
         
         static
         {
-            CREATE = "Create";
+            CONVICT = "/faces/judicialDecision/Convict";
+            DISCHARGE = "/faces/judicialDecision/Discharge";
+            SHORTEN = "/faces/judicialDecision/Shorten";
         }
     }
 }

@@ -20,6 +20,7 @@ package service.remote;
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Prisoner;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
@@ -37,6 +38,12 @@ public interface EntityRetriverRemote
      * @return the entity representing the prisoner if it exists, null otherwise.
      */
     public Prisoner findPrisoner(String prisonFileNumber);
+    
+    /**
+     * Retrieves the list of all incarcerated prisoners.
+     * @return the list of all incarcerated prisoners.
+     */
+    public List<Prisoner> findAllPrisoners();
     
     /**
      * Retrieves a criminal case based on the case number and the original jurisdiction.

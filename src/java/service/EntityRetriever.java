@@ -21,6 +21,7 @@ import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Prisoner;
 import entity.primaryKeys.CriminalCasePK;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -44,6 +45,12 @@ public class EntityRetriever implements EntityRetriverRemote
         assert(entityManager != null);
         
         return entityManager.find(Prisoner.class, prisonFileNumber);
+    }
+
+    @Override
+    public List<Prisoner> findAllPrisoners()
+    {
+        return this.entityManager.createNamedQuery("Prisoner.findAll").getResultList();
     }
 
     @Override
