@@ -31,6 +31,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.Metamodel;
+import javax.persistence.metamodel.SetAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import service.remote.EntityRetriverRemote;
 
@@ -77,6 +78,7 @@ public class EntityRetriever implements EntityRetriverRemote
         return entityManager.find(Incarceration.class, prisonFileNumber);
     }
     
+    @Override
     public List<Prisoner> findPrisonersOnRemand()
     {
         //SELECT p FROM Prisoner p WHERE NOT EXISTS 
@@ -90,20 +92,20 @@ public class EntityRetriever implements EntityRetriverRemote
         // Get join attribute
         Metamodel model = entityManager.getMetamodel();
         ManagedType<Prisoner> metaPrisoner = model.managedType(Prisoner.class);
-        SingularAttribute attrJudicialDecisionSet = (SingularAttribute)
-                metaPrisoner.getAttribute("judicialDecisionSet");
+        SetAttribute attrJudicialDecisionSet = 
+                metaPrisoner.getSet("judicialDecisionSet");
         
         Subquery<Prisoner> subQuery = mainQuery.subquery(Prisoner.class);
         Root<Prisoner> subTabPrisoner = subQuery.from(Prisoner.class);
         
         subQuery.select(subTabPrisoner.join(attrJudicialDecisionSet))
                 .where(criteriaBuilder.equal(
-                        subTabPrisoner.get("prisonerFileNumber"),
+                        subTabPrisoner.get("prisonFileNumber"),
                         mainTabPrisoner.get("prisonFileNumber")));
         
         mainQuery.select( mainTabPrisoner )
                 .where(criteriaBuilder.not(criteriaBuilder.exists(subQuery)));
         
-        return null;
+        return entityManager.createQuery(mainQuery).getResultList();
     }
 }

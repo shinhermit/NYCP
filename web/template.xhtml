@@ -21,8 +21,12 @@
                  <li><a href="/index">Index</a></li>
                  <li>Incarcerations
                     <ul>
-                        <li><h:link outcome="/incarcerate/List" value="#{bundle.ListIncarcerationLink}" /></li>
-                        <li><h:link outcome="/incarcerate/Create" value="#{bundle.CreateIncarcerationTitle}" /></li>
+                        <li><h:link outcome="/incarcerate/List"
+                                    value="#{bundle.ListIncarcerationLink}" /></li>
+                        <li><h:link outcome="/remand/List"
+                                    value="#{bundle.RemandListLink}" /></li>
+                        <li><h:link outcome="/incarcerate/Create"
+                                    value="#{bundle.CreateIncarcerationTitle}" /></li>
                      </ul>
                  </li>
                  <li>Incarceration motives
@@ -31,7 +35,8 @@
                         <li><h:link outcome="/motive/Create" value="#{bundle.MotiveCreate}" /></li>
                      </ul>
                  </li>
-                 <li><h:link outcome="/judicialDecision/Create" value="#{bundle.JudicialDecisionCreate_Link}" /></li>
+                 <li><h:link outcome="/judicialDecision/Create"
+                             value="#{bundle.JudicialDecisionCreate_Link}" /></li>
             </ul>
         </nav>
         

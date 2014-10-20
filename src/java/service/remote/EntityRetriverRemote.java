@@ -59,4 +59,6 @@ public interface EntityRetriverRemote
      * @return the entity representing the incarceration if it exists, null otherwise.
      */
     public Incarceration findIncarceration(String prisonFileNumber);
+    
+    public List<Prisoner> findPrisonersOnRemand();
 }

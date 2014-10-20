@@ -41,9 +41,9 @@ public class NYCPFaces
         
         static
         {
-            LIST = "List";
-            VIEW = "View";
-            CREATE = "Create";
+            LIST = "/incarcerate/List";
+            VIEW = "/incarcerate/View";
+            CREATE = "/incarcerate/Create";
         }
     }
     

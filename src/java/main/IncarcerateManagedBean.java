@@ -31,6 +31,8 @@ public class IncarcerateManagedBean
     private Motive motive;
     private Date dateOfIncarceration;
     
+    private List<Incarceration> items;
+    
     private IncarcerateRemote incarcerateService;
     private EntityRetriverRemote entityRetriver;
     
@@ -110,6 +112,13 @@ public class IncarcerateManagedBean
         this.dateOfIncarceration = incarceration.getDateOfIncarceration();
 
         return NYCPFaces.Incarceration.VIEW;
+    }
+    
+    public List<Prisoner> getRemands()
+    {
+        this.lookUpEntityRetriver();
+        
+        return this.entityRetriver.findPrisonersOnRemand();
     }
     
     public List<Incarceration> getItems() 
