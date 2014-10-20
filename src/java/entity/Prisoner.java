@@ -34,6 +34,10 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Prisoner.findAll", query = "SELECT p FROM Prisoner p"),
+    @NamedQuery(name = "Prisoner.findOnRemand",
+            query = "SELECT p FROM Prisoner p WHERE NOT EXISTS "
+                    + "(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j "
+                    + "WHERE p2.prisonFileNumber = p.prisonFileNumber)"),
     @NamedQuery(name = "Prisoner.findByPrisonFileNumber", query = "SELECT p FROM Prisoner p WHERE p.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "Prisoner.findByGivenName", query = "SELECT p FROM Prisoner p WHERE p.givenName = :givenName"),
     @NamedQuery(name = "Prisoner.findBySurname", query = "SELECT p FROM Prisoner p WHERE p.surname = :surname"),
