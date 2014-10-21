@@ -19,7 +19,9 @@ package main.names;
 
 /**
  * Provides the names of the services (session) beans.
- * @author josuah
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 public class NYCPServices
 {
@@ -31,12 +33,17 @@ public class NYCPServices
         /** The name of the incarceration service bean. */
         public static final String INCARCERATION;
         
+        /** The name of the judicial decision service bean. */
+        public static final String JUDICIAL_DECISION;
+        
         /** The name of the entity retriver service bean. */
         public static final String ENTITY_RETRIEVER;
         
         static
         {
             INCARCERATION = "ejb/IncarcerateService";
+            
+            JUDICIAL_DECISION = "ejb/JudicialDecisionService";
             
             ENTITY_RETRIEVER = "ejb/EntityRetrieverService";
         }

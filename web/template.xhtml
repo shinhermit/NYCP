@@ -8,15 +8,41 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
+        <h:outputStylesheet library="css" name="template.css"/>
     </h:head>
 
     <h:body>
-        <h1>
+        <h1 id="mainTitle">
             <ui:insert name="title">Default Title</ui:insert>
         </h1>
-        <p>
+        
+        <nav>
+            <ul>
+                 <li><a href="/index">Index</a></li>
+                 <li>Incarcerations
+                    <ul>
+                        <li><h:link outcome="/incarcerate/List"
+                                    value="#{bundle.ListIncarcerationLink}" /></li>
+                        <li><h:link outcome="/remand/List"
+                                    value="#{bundle.RemandListLink}" /></li>
+                        <li><h:link outcome="/incarcerate/Create"
+                                    value="#{bundle.CreateIncarcerationTitle}" /></li>
+                     </ul>
+                 </li>
+                 <li>Incarceration motives
+                    <ul>
+                        <li><h:link outcome="/motive/List" value="#{bundle.MotiveList}" /></li>
+                        <li><h:link outcome="/motive/Create" value="#{bundle.MotiveCreate}" /></li>
+                     </ul>
+                 </li>
+                 <li><h:link outcome="/judicialDecision/Create"
+                             value="#{bundle.JudicialDecisionCreate_Link}" /></li>
+            </ul>
+        </nav>
+        
+        <article id="mainContent">
             <ui:insert name="body">Default Body</ui:insert>
-        </p>
+        </article>
     </h:body>
 
 </html>

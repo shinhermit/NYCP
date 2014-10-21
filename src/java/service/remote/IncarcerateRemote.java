@@ -14,6 +14,12 @@ import java.util.Date;
 import java.util.List;
 import javax.ejb.Remote;
 
+/**
+ * The remote interface for the services concerning the incarcerations.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
+ */
 @Remote
 public interface IncarcerateRemote
 {

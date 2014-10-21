@@ -1,7 +1,6 @@
 package entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,13 +26,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author josuah
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Entity
 @Table(name = "PRISONER")    
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Prisoner.findAll", query = "SELECT p FROM Prisoner p"),
+    @NamedQuery(name = "Prisoner.findOnRemand",
+            query = "SELECT p FROM Prisoner p WHERE NOT EXISTS "
+                    + "(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j "
+                    + "WHERE p2.prisonFileNumber = p.prisonFileNumber)"),
     @NamedQuery(name = "Prisoner.findByPrisonFileNumber", query = "SELECT p FROM Prisoner p WHERE p.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "Prisoner.findByGivenName", query = "SELECT p FROM Prisoner p WHERE p.givenName = :givenName"),
     @NamedQuery(name = "Prisoner.findBySurname", query = "SELECT p FROM Prisoner p WHERE p.surname = :surname"),
@@ -76,7 +80,7 @@ public class Prisoner implements Serializable
     private Set<CriminalCase> criminalCaseSet = null;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
-    private Collection<JudicialDecision> judicialDecisions;
+    private Set<JudicialDecision> judicialDecisionSet;
     
     private static final long serialVersionUID = 1L;
     
@@ -159,13 +163,35 @@ public class Prisoner implements Serializable
      */
     public void addCriminalCase(CriminalCase criminalCase)
     {
-        if (this.criminalCaseSet == null) {
+        if (this.criminalCaseSet == null)
+        {
             this.criminalCaseSet = new HashSet();
         }
         
         this.criminalCaseSet.add(criminalCase);
     }
+ 
+    @XmlTransient
+    public Set<JudicialDecision> getJudicialDecisionSet()
+    {
+        return judicialDecisionSet;
+    }
+
+    public void setJudicialDecisionSet(Set<JudicialDecision> judicialDecisionCollection)
+    {
+        this.judicialDecisionSet = judicialDecisionCollection;
+    }
     
+    public void addJudicialDecision(JudicialDecision decision)
+    {
+        if(this.judicialDecisionSet == null)
+        {
+            this.judicialDecisionSet = new HashSet<>();
+        }
+        
+        this.judicialDecisionSet.add(decision); // TODO: check for existence
+    }
+   
     @Override
     public int hashCode()
     {
@@ -198,26 +224,5 @@ public class Prisoner implements Serializable
     public String toString()
     {
         return "entity.Prisoner[ prisonFileNumber=" + prisonFileNumber + " ]";
-    }
-
-    @XmlTransient
-    public Collection<JudicialDecision> getJudicialDecisions()
-    {
-        return judicialDecisions;
-    }
-
-    public void setJudicialDecisions(Collection<JudicialDecision> judicialDecisionCollection)
-    {
-        this.judicialDecisions = judicialDecisionCollection;
-    }
-    
-    public void addJudicialDecision(JudicialDecision decision)
-    {
-        if(this.judicialDecisions == null)
-        {
-            this.judicialDecisions = new HashSet<>();
-        }
-        
-        this.judicialDecisions.add(decision); // TODO: check for existence
     }
 }

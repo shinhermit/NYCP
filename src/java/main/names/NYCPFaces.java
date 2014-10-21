@@ -19,7 +19,9 @@ package main.names;
 
 /**
  * Provides the differents faces of the application.
- * @author josuah
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 public class NYCPFaces
 {
@@ -39,9 +41,31 @@ public class NYCPFaces
         
         static
         {
-            LIST = "List";
-            VIEW = "View";
-            CREATE = "Create";
+            LIST = "/incarcerate/List";
+            VIEW = "/incarcerate/View";
+            CREATE = "/incarcerate/Create";
+        }
+    }
+    
+    /**
+     * Provides the name of the faces of the judicial decisions service.
+     */
+    public static class JudicialDecision
+    {
+        /** The <i>create new incarceration</i> face. */
+        public static final String CONVICT;
+        
+        /** The <i>create new incarceration</i> face. */
+        public static final String DISCHARGE;
+        
+        /** The <i>create new incarceration</i> face. */
+        public static final String SHORTEN;
+        
+        static
+        {
+            CONVICT = "/judicialDecision/Convict";
+            DISCHARGE = "/judicialDecision/Discharge";
+            SHORTEN = "/judicialDecision/Shorten";
         }
     }
 }

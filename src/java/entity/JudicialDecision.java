@@ -20,6 +20,8 @@ package entity;
 import entity.primaryKeys.JudicialDecisionPK;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -31,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author josuah
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Entity
 @Table(name = "JUDICIAL_DECISION")
@@ -41,17 +44,18 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "JudicialDecision.findByDecisionTypeNumber", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.decisionTypeNumber = :decisionTypeNumber"),
     @NamedQuery(name = "JudicialDecision.findByPrisonFileNumber", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "JudicialDecision.findByDateOfDecision", query = "SELECT j FROM JudicialDecision j WHERE j.judicialDecisionPK.dateOfDecision = :dateOfDecision")})
-public class JudicialDecision implements Serializable
+@DiscriminatorColumn(name="DECISION_TYPE_NUMBER", discriminatorType=DiscriminatorType.STRING)
+public abstract class JudicialDecision implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-    
     @EmbeddedId
     protected JudicialDecisionPK judicialDecisionPK;
     
+    @ManyToOne(optional = false)
     @JoinColumn(name = "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER",
             insertable = false, updatable = false)
-    @ManyToOne(optional = false)
     private Prisoner prisoner;
+    
+    private static final long serialVersionUID = 1L;
 
     public JudicialDecision()
     {
@@ -75,7 +79,7 @@ public class JudicialDecision implements Serializable
 
     public void setJudicialDecisionPK(JudicialDecisionPK judicialDecisionPK)
     {
-        this.judicialDecisionPK = judicialDecisionPK;
+        this.judicialDecisionPK.copy(judicialDecisionPK);
     }
 
     public Prisoner getPrisoner()
@@ -86,36 +90,6 @@ public class JudicialDecision implements Serializable
     public void setPrisoner(Prisoner prisoner)
     {
         this.prisoner = prisoner;
-    }
-
-    public String getDecisionTypeNumber()
-    {
-        return this.judicialDecisionPK.getDecisionTypeNumber();
-    }
-
-    public void setDecisionTypeNumber(String decisionTypeNumber)
-    {
-        this.judicialDecisionPK.setDecisionTypeNumber(decisionTypeNumber);
-    }
-
-    public String getPrisonFileNumber()
-    {
-        return this.judicialDecisionPK.getPrisonFileNumber();
-    }
-
-    public void setPrisonFileNumber(String prisonFileNumber)
-    {
-        this.judicialDecisionPK.setPrisonFileNumber(prisonFileNumber);
-    }
-
-    public Date getDateOfDecision()
-    {
-        return this.judicialDecisionPK.getDateOfDecision();
-    }
-
-    public void setDateOfDecision(Date dateOfDecision)
-    {
-        this.judicialDecisionPK.setDateOfDecision(dateOfDecision);
     }
 
     @Override
@@ -137,7 +111,11 @@ public class JudicialDecision implements Serializable
         {
             JudicialDecision other = (JudicialDecision) object;
             
-            if ((this.judicialDecisionPK == null && other.judicialDecisionPK != null) || (this.judicialDecisionPK != null && !this.judicialDecisionPK.equals(other.judicialDecisionPK))) {
+            if ((this.judicialDecisionPK == null && other.judicialDecisionPK != null)
+                    ||
+                    (this.judicialDecisionPK != null
+                    && !this.judicialDecisionPK.equals(other.judicialDecisionPK)))
+            {
                 return false;
             }
         }

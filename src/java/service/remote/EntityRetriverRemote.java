@@ -20,18 +20,45 @@ package service.remote;
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Prisoner;
+import java.util.List;
 import javax.ejb.Remote;
 
 /**
- *
- * @author josuah
+ * The remote interface for the services allowing to retrive an entity.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Remote
 public interface EntityRetriverRemote
 {
+    /**
+     * Retrieves a prisoner based on is prison file number.
+     * @param prisonFileNumber the file number of the prisoner which is required.
+     * @return the entity representing the prisoner if it exists, null otherwise.
+     */
     public Prisoner findPrisoner(String prisonFileNumber);
     
+    /**
+     * Retrieves the list of all incarcerated prisoners.
+     * @return the list of all incarcerated prisoners.
+     */
+    public List<Prisoner> findAllPrisoners();
+    
+    /**
+     * Retrieves a criminal case based on the case number and the original jurisdiction.
+     * @param caseNumber the file number of the criminal case.
+     * @param jurisdictionName the original jurisdiction of the crime.
+     * @return the entity representing the criminal case if it exists, null otherwise.
+     */
     public CriminalCase findCriminalCase(String caseNumber, String jurisdictionName);
     
+    /**
+     * Retrieves the incarceration information associated with a prisoner.
+     * @param prisonFileNumber the file number of the prisoner for which the incarceration information is required.
+     * @return the entity representing the incarceration if it exists, null otherwise.
+     */
     public Incarceration findIncarceration(String prisonFileNumber);
+    
+    public List<Prisoner> findPrisonersOnRemand();
 }

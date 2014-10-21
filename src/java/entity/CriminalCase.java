@@ -19,7 +19,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author josuah
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Entity
 @Table(name = "CRIMINAL_CASE")

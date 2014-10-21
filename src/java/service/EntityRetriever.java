@@ -21,14 +21,25 @@ import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Prisoner;
 import entity.primaryKeys.CriminalCasePK;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
+import javax.persistence.metamodel.ManagedType;
+import javax.persistence.metamodel.Metamodel;
+import javax.persistence.metamodel.SetAttribute;
+import javax.persistence.metamodel.SingularAttribute;
 import service.remote.EntityRetriverRemote;
 
 /**
- *
- * @author josuah
+ * The service provider to retrieve an entity.
+ * 
+ * @author Josuah Aron
+ * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/EntityRetrieverService")
 public class EntityRetriever implements EntityRetriverRemote
@@ -42,6 +53,12 @@ public class EntityRetriever implements EntityRetriverRemote
         assert(entityManager != null);
         
         return entityManager.find(Prisoner.class, prisonFileNumber);
+    }
+
+    @Override
+    public List<Prisoner> findAllPrisoners()
+    {
+        return this.entityManager.createNamedQuery("Prisoner.findAll").getResultList();
     }
 
     @Override
@@ -59,5 +76,36 @@ public class EntityRetriever implements EntityRetriverRemote
         assert(entityManager != null);
         
         return entityManager.find(Incarceration.class, prisonFileNumber);
+    }
+    
+    @Override
+    public List<Prisoner> findPrisonersOnRemand()
+    {
+        //SELECT p FROM Prisoner p WHERE NOT EXISTS 
+        //(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j 
+        //WHERE p2.prisonFileNumber = p.prisonFileNumber)
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        
+        CriteriaQuery<Prisoner> mainQuery = criteriaBuilder.createQuery(Prisoner.class);
+        Root<Prisoner> mainTabPrisoner =  mainQuery.from(Prisoner.class);
+        
+        // Get join attribute
+        Metamodel model = entityManager.getMetamodel();
+        ManagedType<Prisoner> metaPrisoner = model.managedType(Prisoner.class);
+        SetAttribute attrJudicialDecisionSet = 
+                metaPrisoner.getSet("judicialDecisionSet");
+        
+        Subquery<Prisoner> subQuery = mainQuery.subquery(Prisoner.class);
+        Root<Prisoner> subTabPrisoner = subQuery.from(Prisoner.class);
+        
+        subQuery.select(subTabPrisoner.join(attrJudicialDecisionSet))
+                .where(criteriaBuilder.equal(
+                        subTabPrisoner.get("prisonFileNumber"),
+                        mainTabPrisoner.get("prisonFileNumber")));
+        
+        mainQuery.select( mainTabPrisoner )
+                .where(criteriaBuilder.not(criteriaBuilder.exists(subQuery)));
+        
+        return entityManager.createQuery(mainQuery).getResultList();
     }
 }

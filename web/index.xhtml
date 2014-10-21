@@ -2,8 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"    
       xmlns:h="http://java.sun.com/jsf/html">
  
         <ui:composition template="/template.xhtml">
@@ -11,10 +10,27 @@
                 <h:outputText value="#{bundle.IndexTitle}"></h:outputText>
             </ui:define>
             <ui:define name="body">
-                <h:link outcome="incarcerate/List" value="#{bundle.ListIncarcerationLink}" />
-                <br />
-                <br />
-                <h:link outcome="incarcerate/Create" value="#{bundle.CreateIncarcerationTitle}" />
+                <h2>Welcome</h2>
+                
+                <nav>
+                    <ul>
+                         <li><a href="/index">Index</a></li>
+                         <li>Incarcerations
+                            <ul>
+                                <li><h:link outcome="/incarcerate/List" value="#{bundle.ListIncarcerationLink}" /></li>
+                                <li><h:link outcome="/incarcerate/Create" value="#{bundle.CreateIncarcerationTitle}" /></li>
+                             </ul>
+                         </li>
+                         <li>Incarceration motives
+                            <ul>
+                                <li><h:link outcome="/motive/List" value="#{bundle.MotiveList}" /></li>
+                                <li><h:link outcome="/motive/Create" value="#{bundle.MotiveCreate}" /></li>
+                             </ul>
+                         </li>
+                         <li><h:link outcome="/judicialDecision/Create" value="#{bundle.JudicialDecisionCreate_Link}" /></li>
+                    </ul>
+                </nav>
+                
             </ui:define>
         </ui:composition>
 </html>

@@ -7,7 +7,7 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ConvictionDecisionCreateTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ShorteningDecisionCreateTitle}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
@@ -33,13 +33,13 @@
                         <f:convertDateTime pattern="dd-MM-yyyy" />
                     </h:inputText>
                     
-                    <h:outputLabel value="#{bundle.ConvictionDecisionCreate_duration}"
+                    <h:outputLabel value="#{bundle.ShorteningDecisionCreate_duration}"
                                    for="duration" />
                     <h:inputText id="duration"
                                  value="#{judicialDecisionManagedBean.duration}"
-                                 title="#{bundle.ConvictionDecisionCreate_duration}" />
+                                 title="#{bundle.ShorteningDecisionCreate_duration}" />
                 <br />
-                <h:commandButton action="#{judicialDecisionManagedBean.convict}"
+                <h:commandButton action="#{judicialDecisionManagedBean.shortenSentence}"
                                  value="#{bundle.JudicialDecisionCreate_SaveLink}" />
                 <br />
                 <br />
