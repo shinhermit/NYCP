@@ -28,8 +28,6 @@ public class IncarcerateManagedBean
     private Motive motive;
     private Date dateOfIncarceration;
     
-    private List<Incarceration> items;
-    
     @EJB
     private IncarcerateLocal incarcerateService;
     @EJB
