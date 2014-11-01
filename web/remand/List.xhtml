@@ -19,16 +19,59 @@
                     <h:dataTable value="#{incarcerateManagedBean.remands}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.RemandList_prisonerName}"/>
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_prisonerName}"/>
                             </f:facet>
                             <h:outputText value="#{item.givenName} #{item.surname}"/>
                         </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
-                                <h:outputText value="#{bundle.ListIncarcerationTitle_prisonFileNumber}"/>
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_prisonerDateOfBirth}"/>
                             </f:facet>
-                            <h:outputText value="#{item.prisonFileNumber}"/>
+                            <h:outputText value="#{item.dateOfBirth}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
                         </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_prisonPlaceOfBirth}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.placeOfBirth}"/>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_dateOfCriminalCase}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.criminalCase.dateOfCriminalCase}"/>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_dateOfIncarceration}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.incarceration.dateOfIncarceration}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_motive}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.incarceration.motive.motiveLabel}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </h:column>
+                        
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListIncarcerationTitle_jurisdictionName}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.criminalCase.jurisdictionName}"/>
+                        </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
@@ -38,6 +81,7 @@
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
@@ -47,6 +91,7 @@
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
@@ -56,6 +101,7 @@
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
+                        
                         <h:column>
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
@@ -65,6 +111,7 @@
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
+                        
                     </h:dataTable>
                 </h:panelGroup>
             </h:form>

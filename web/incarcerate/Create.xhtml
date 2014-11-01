@@ -30,10 +30,14 @@
                     <h:inputText id="placeOfBirth" value="#{incarcerateManagedBean.prisoner.placeOfBirth}" title="#{bundle.CreatePrisonerTitle_placeOfBirth}" />
                     
                     <h:outputLabel value="Motive number" for="motiveNumber" />
-                    <h:inputText id="motiveNumber" value="#{incarcerateManagedBean.motive.motiveNumber}" title="Motive Number" />
-                    
-                    <h:outputLabel value="Motive label" for="motiveLabel" />
-                    <h:inputText id="motiveLabel" value="#{incarcerateManagedBean.motive.motiveLabel}" title="Motive label" />
+                    <h:selectOneMenu id="concernedPrisoner"
+                                     value="#{incarcerateManagedBean.motive.motiveNumber}">
+                        <f:selectItem itemValue="-1" itemLabel="-- Motive --" />
+                        <f:selectItems value="#{incarcerateManagedBean.motiveList}"
+                                       var="motive"
+                                       itemValue="#{motive.motiveNumber}"
+                                       itemLabel="[#{motive.motiveNumber}] #{motive.motiveLabel}" />
+                    </h:selectOneMenu>
                     
                     <h:outputLabel value="Prison file number" for="prisonFileNumber" />
                     <h:inputText id="prisonFileNumber" value="#{incarcerateManagedBean.prisoner.prisonFileNumber}" title="#{bundle.CreateIncarcerationTitle_prisonFileNumber}" />

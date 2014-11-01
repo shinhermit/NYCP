@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -81,6 +82,18 @@ public class Prisoner implements Serializable
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
     private Set<JudicialDecision> judicialDecisionSet;
+    
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "PRISONER_CRIMINAL_CASE",
+               joinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
+               },
+               inverseJoinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
+                   @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
+                   @JoinColumn(name= "JURISDICTION_NAME",     referencedColumnName = "JURISDICTION_NAME"),
+               })
+    private Incarceration incarceration = null;
     
     private static final long serialVersionUID = 1L;
     
@@ -171,6 +184,32 @@ public class Prisoner implements Serializable
         this.criminalCaseSet.add(criminalCase);
     }
  
+    public Incarceration getIncarceration()
+    {
+        return this.incarceration;
+    }
+    
+    public void setIncarceration(Incarceration incarceration)
+    {
+        this.incarceration = incarceration;
+    }
+ 
+    public CriminalCase getCriminalCase()
+    {
+        CriminalCase crime = null;
+        Set<CriminalCase> crimes = getCriminalCaseSet();
+        
+        if(crimes != null)
+        {
+            if(!crimes.isEmpty())
+            {
+                crime = crimes.iterator().next();
+            }
+        }
+        
+        return crime;
+    }
+    
     @XmlTransient
     public Set<JudicialDecision> getJudicialDecisionSet()
     {

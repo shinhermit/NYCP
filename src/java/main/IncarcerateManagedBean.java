@@ -41,12 +41,19 @@ public class IncarcerateManagedBean
         this.prisoner = new Prisoner();
         this.criminalCase = new CriminalCase();
         this.motive = new Motive();
+        this.dateOfIncarceration = new Date();
     }
         
     public String incarcerate ()
     {
-        this.incarcerateService.incarcerate(this.prisoner, this.criminalCase,
-                this.motive, this.dateOfIncarceration);
+        Motive mot = entityRetriver.findMotive(this.motive.getMotiveNumber());
+        
+        if(mot != null)
+        {
+            this.motive = mot;
+            this.incarcerateService.incarcerate(this.prisoner, this.criminalCase,
+                    this.motive, this.dateOfIncarceration);
+        }
         
         return NYCPFaces.Incarceration.CREATE;
     }
@@ -76,9 +83,9 @@ public class IncarcerateManagedBean
         return this.entityRetriver.findPrisonersOnRemand();
     }
     
-    public List<Incarceration> getItems() 
+    public List<Prisoner> getPrionerList() 
     {
-        return entityRetriver.findAllIncarcerations();
+        return entityRetriver.findAllPrisoners();
     }
 
     public Prisoner getPrisoner()
@@ -104,6 +111,11 @@ public class IncarcerateManagedBean
     public Motive getMotive()
     {
         return motive;
+    }
+    
+    public List<Motive> getMotiveList()
+    {
+        return this.entityRetriver.findAllMotives();
     }
 
     public void setMotive(Motive motive)

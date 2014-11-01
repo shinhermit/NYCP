@@ -22,6 +22,7 @@ import entity.CriminalCase;
 import entity.FinalDischarge;
 import entity.Incarceration;
 import entity.JudicialDecision;
+import entity.Motive;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.List;
@@ -65,6 +66,19 @@ public interface EntityRetriverLocal
      * @return the entity representing the criminal case if it exists, null otherwise.
      */
     public CriminalCase findCriminalCase(String caseNumber, String jurisdictionName);
+    
+    /**
+     * Retrieves all the registered incarceration motives.
+     * @return the list of all the registered incarceration motives.
+     */
+    public List<Motive> findAllMotives();
+    
+    /**
+     * Retrieves the motive with the corresponding number.
+     * @param motiveNumber the number of the motive.
+     * @return the motive with the given number.
+     */
+    public Motive findMotive(String motiveNumber);
     
     /**
      * Retrieves the incarceration information associated with a prisoner.

@@ -61,7 +61,7 @@ public class IncarcerateService implements IncarcerateLocal
         
         entityManager.persist(prisoner);
         entityManager.flush();   //TODO: what's this useful for ??????????????????
-        entityManager.persist(motive);
+//        entityManager.persist(motive);
         entityManager.persist(incarceration);
         
         return prisoner;

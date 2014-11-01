@@ -22,6 +22,7 @@ import entity.CriminalCase;
 import entity.FinalDischarge;
 import entity.Incarceration;
 import entity.JudicialDecision;
+import entity.Motive;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import entity.primaryKeys.CriminalCasePK;
@@ -70,6 +71,25 @@ public class EntityRetriever implements EntityRetriverLocal
         
         return entityManager.find(CriminalCase.class,
                 new CriminalCasePK(caseNumber,jurisdictionName));
+    }
+
+    @Override
+    public List<Motive> findAllMotives()
+    {
+        assert(entityManager != null);
+        
+        javax.persistence.criteria.CriteriaQuery criteriaQuery =
+                entityManager.getCriteriaBuilder().createQuery();
+        
+        criteriaQuery.select( criteriaQuery.from(Motive.class) );
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+    
+    @Override
+    public Motive findMotive(String motiveNumber)
+    {
+        return entityManager.find(Motive.class, motiveNumber);
     }
 
     @Override
