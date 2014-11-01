@@ -22,16 +22,13 @@ import entity.primaryKeys.JudicialDecisionPK;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.NamingException;
 import main.names.NYCPFaces;
-import main.names.NYCPServices;
-import service.remote.EntityRetriverRemote;
-import service.remote.JudicialDecisionRemote;
+import service.local.EntityRetriverLocal;
+import service.local.JudicialDecisionLocal;
 
 /**
  *
@@ -47,8 +44,10 @@ public class JudicialDecisionManagedBean
     private Integer duration;
     private Date dateOfDischarge;
     
-    private JudicialDecisionRemote decisionService;
-    private EntityRetriverRemote entityRetriver;
+    @EJB
+    private JudicialDecisionLocal decisionService;
+    @EJB
+    private EntityRetriverLocal entityRetriver;
     
     /**
      * Creates a new instance of JudicialDecisionManagedBean
@@ -59,42 +58,6 @@ public class JudicialDecisionManagedBean
         this.decisionPK = new JudicialDecisionPK();
         this.duration = new Integer(0);
         this.dateOfDischarge = new Date();
-    }
-    
-    private void lookUpIncarcerateService()
-    {
-        if(this.decisionService == null)
-        {
-            try
-            {
-                javax.naming.Context jndi_context = new javax.naming.InitialContext();
-                
-                this.decisionService = (service.remote.JudicialDecisionRemote)
-                        jndi_context.lookup(NYCPServices.ejb.JUDICIAL_DECISION);
-            }
-            catch (NamingException ex)
-            {
-                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void lookUpEntityRetriver()
-    {
-        if(this.entityRetriver == null)
-        {
-            try
-            {
-                javax.naming.Context jndi_context = new javax.naming.InitialContext();
-                
-                this.entityRetriver =
-                    (service.remote.EntityRetriverRemote) jndi_context.lookup(NYCPServices.ejb.ENTITY_RETRIEVER);
-            }
-            catch (NamingException ex)
-            {
-                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
     }
     
     private String getRequestParameter(String parameterName)
@@ -109,8 +72,6 @@ public class JudicialDecisionManagedBean
     
     public String showConvictForm()
     {
-        this.lookUpEntityRetriver();
-        
         this.prisoner = entityRetriver.findPrisoner(this.getRequestParameter("prisonFileNumber"));
         
         return NYCPFaces.JudicialDecision.CONVICT;
@@ -118,8 +79,6 @@ public class JudicialDecisionManagedBean
     
     public String showDischargeForm()
     {
-        this.lookUpEntityRetriver();
-        
         this.prisoner = entityRetriver.findPrisoner(this.getRequestParameter("prisonFileNumber"));
         
         return NYCPFaces.JudicialDecision.DISCHARGE;
@@ -127,8 +86,6 @@ public class JudicialDecisionManagedBean
     
     public String showShorteningForm()
     {
-        this.lookUpEntityRetriver();
-        
         this.prisoner = entityRetriver.findPrisoner(this.getRequestParameter("prisonFileNumber"));
         
         return NYCPFaces.JudicialDecision.SHORTEN;
@@ -136,8 +93,6 @@ public class JudicialDecisionManagedBean
     
     public String convict()
     {
-        this.lookUpIncarcerateService();
-        
         this.decisionService.convict(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.duration);
         
@@ -146,8 +101,6 @@ public class JudicialDecisionManagedBean
     
     public String discharge()
     {
-        this.lookUpIncarcerateService();
-        
         this.decisionService.discharge(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.dateOfDischarge);
         
@@ -156,8 +109,6 @@ public class JudicialDecisionManagedBean
     
     public String shortenSentence()
     {
-        this.lookUpIncarcerateService();
-        
         this.decisionService.shortenSentence(this.prisoner.getPrisonFileNumber(),
                 this.decisionPK.getDateOfDecision(), this.duration);
         
@@ -176,8 +127,6 @@ public class JudicialDecisionManagedBean
     
     public List<Prisoner> getPrisonerList()
     {
-        this.lookUpEntityRetriver();
-        
         return this.entityRetriver.findAllPrisoners();
     }
 

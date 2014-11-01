@@ -32,8 +32,7 @@ import javax.persistence.criteria.Subquery;
 import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SetAttribute;
-import javax.persistence.metamodel.SingularAttribute;
-import service.remote.EntityRetriverRemote;
+import service.local.EntityRetriverLocal;
 
 /**
  * The service provider to retrieve an entity.
@@ -42,7 +41,7 @@ import service.remote.EntityRetriverRemote;
  * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/EntityRetrieverService")
-public class EntityRetriever implements EntityRetriverRemote
+public class EntityRetriever implements EntityRetriverLocal
 {
     @PersistenceContext(unitName = "NYCPPU")
     private EntityManager entityManager;

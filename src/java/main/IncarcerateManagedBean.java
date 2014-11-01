@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
-import service.remote.EntityRetriverRemote;
-import service.remote.IncarcerateRemote;
+import service.local.EntityRetriverLocal;
+import service.local.IncarcerateLocal;
 
 /**
  *
@@ -33,8 +34,10 @@ public class IncarcerateManagedBean
     
     private List<Incarceration> items;
     
-    private IncarcerateRemote incarcerateService;
-    private EntityRetriverRemote entityRetriver;
+    @EJB
+    private IncarcerateLocal incarcerateService;
+    @EJB
+    private EntityRetriverLocal entityRetriver;
     
     /**
      * Creates a new instance of IncarcerateManageBean
@@ -45,47 +48,9 @@ public class IncarcerateManagedBean
         this.criminalCase = new CriminalCase();
         this.motive = new Motive();
     }
-    
-    private void lookUpIncarcerateService()
-    {
-        if(this.incarcerateService == null)
-        {
-            try
-            {
-                javax.naming.Context jndi_context = new javax.naming.InitialContext();
-                
-                this.incarcerateService =
-                    (service.remote.IncarcerateRemote) jndi_context.lookup(NYCPServices.ejb.INCARCERATION);
-            }
-            catch (NamingException ex)
-            {
-                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    private void lookUpEntityRetriver()
-    {
-        if(this.entityRetriver == null)
-        {
-            try
-            {
-                javax.naming.Context jndi_context = new javax.naming.InitialContext();
-                
-                this.entityRetriver =
-                    (service.remote.EntityRetriverRemote) jndi_context.lookup(NYCPServices.ejb.ENTITY_RETRIEVER);
-            }
-            catch (NamingException ex)
-            {
-                Logger.getLogger(IncarcerateManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
         
     public String incarcerate ()
     {
-        this.lookUpIncarcerateService();
-        
         this.incarcerateService.incarcerate(this.prisoner, this.criminalCase,
                 this.motive, this.dateOfIncarceration);
         
@@ -101,8 +66,6 @@ public class IncarcerateManagedBean
         
         String prisonFileNumber =  params.get("prisonFileNumber");
         
-        this.lookUpEntityRetriver();
-        
         Incarceration incarceration = entityRetriver.findIncarceration(prisonFileNumber);
         
         this.prisoner = entityRetriver.findPrisoner(prisonFileNumber);
@@ -116,15 +79,11 @@ public class IncarcerateManagedBean
     
     public List<Prisoner> getRemands()
     {
-        this.lookUpEntityRetriver();
-        
         return this.entityRetriver.findPrisonersOnRemand();
     }
     
     public List<Incarceration> getItems() 
     {
-        this.lookUpIncarcerateService();
-        
         return incarcerateService.findAll();
     }
 

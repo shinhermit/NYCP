@@ -15,13 +15,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package service.remote;
+package service.local;
 
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Prisoner;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  * The remote interface for the services allowing to retrive an entity.
@@ -29,8 +29,8 @@ import javax.ejb.Remote;
  * @author Josuah Aron
  * @author Émilien Arino
  */
-@Remote
-public interface EntityRetriverRemote
+@Local
+public interface EntityRetriverLocal
 {
     /**
      * Retrieves a prisoner based on is prison file number.

@@ -27,7 +27,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import service.remote.JudicialDecisionRemote;
+import service.local.JudicialDecisionLocal;
 
 /**
  * The service provider for judicial decisions.
@@ -36,7 +36,7 @@ import service.remote.JudicialDecisionRemote;
  * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/JudicialDecisionService")
-public class JudicialDecisionService implements JudicialDecisionRemote
+public class JudicialDecisionService implements JudicialDecisionLocal
 {
     @PersistenceContext(unitName = "NYCPPU")
     private EntityManager entityManager;
@@ -174,7 +174,8 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     {
         FinalDischarge decision = null;
         
-        List<FinalDischarge> allDecisions = entityManager.createNamedQuery("FinalDischarge.findByPrisonFileNumber")
+        List<FinalDischarge> allDecisions =
+                entityManager.createNamedQuery("FinalDischarge.findByPrisonFileNumber")
                 .setParameter("prisonFileNumber", prisonFileNumber)
                 .getResultList();
         

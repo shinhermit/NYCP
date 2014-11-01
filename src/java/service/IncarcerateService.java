@@ -6,7 +6,7 @@ import entity.Motive;
 import entity.Prisoner;
 import java.util.Date;
 import java.util.List;
-import service.remote.IncarcerateRemote;
+import service.local.IncarcerateLocal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,7 +18,7 @@ import javax.persistence.PersistenceContext;
  * @author Émilien Arino
  */
 @Stateless(mappedName = "ejb/IncarcerateService")
-public class IncarcerateService implements IncarcerateRemote
+public class IncarcerateService implements IncarcerateLocal
 {
     @PersistenceContext(unitName = "NYCPPU")
     private EntityManager entityManager;

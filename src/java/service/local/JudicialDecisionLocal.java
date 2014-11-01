@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package service.remote;
+package service.local;
 
 import entity.Conviction;
 import entity.FinalDischarge;
@@ -24,7 +24,7 @@ import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  * The remote interface for the services concerning the judicial decisions.
@@ -32,8 +32,8 @@ import javax.ejb.Remote;
  * @author Josuah Aron
  * @author Émilien Arino
  */
-@Remote
-public interface JudicialDecisionRemote
+@Local
+public interface JudicialDecisionLocal
 {
     /**
      * Adds a new conviction decision for the specified prisoner.

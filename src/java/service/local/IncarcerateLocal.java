@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package service.remote;
+package service.local;
 
 import entity.CriminalCase;
 import entity.Incarceration;
@@ -12,7 +12,7 @@ import entity.Motive;
 import entity.Prisoner;
 import java.util.Date;
 import java.util.List;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  * The remote interface for the services concerning the incarcerations.
@@ -20,8 +20,8 @@ import javax.ejb.Remote;
  * @author Josuah Aron
  * @author Émilien Arino
  */
-@Remote
-public interface IncarcerateRemote
+@Local
+public interface IncarcerateLocal
 {
     /**
      * Creates a new incarceration, and provides the prisoner profile.
