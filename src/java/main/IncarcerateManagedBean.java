@@ -1,7 +1,6 @@
 package main;
 
 import main.names.NYCPFaces;
-import main.names.NYCPServices;
 import entity.CriminalCase;
 import entity.Incarceration;
 import entity.Motive;
@@ -9,13 +8,10 @@ import entity.Prisoner;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.naming.NamingException;
 import service.local.EntityRetriverLocal;
 import service.local.IncarcerateLocal;
 
