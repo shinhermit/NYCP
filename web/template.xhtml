@@ -9,37 +9,35 @@
         <title><ui:insert name="title">Default Title</ui:insert></title>
         <h:outputStylesheet library="css" name="jsfcrud.css"/>
         <h:outputStylesheet library="css" name="template.css"/>
-    </h:head>
+        <h:outputScript library="javascript" name="jquery.js" />
+            </h:head>
 
     <h:body>
         <h1 id="mainTitle">
             <ui:insert name="title">Default Title</ui:insert>
         </h1>
-        
+     
+        <h2>Welcome</h2>
+                
         <nav>
             <ul>
-                 <li><a href="/index">Index</a></li>
-                 <li>Incarcerations
+                <li><a href="/index"><span>Index</span></a></li><!--
+            --><li><span>Incarcerations</span>
                     <ul>
-                        <li><h:link outcome="/incarcerate/List"
-                                    value="#{bundle.ListIncarcerationLink}" /></li>
-                        <li><h:link outcome="/remand/List"
-                                    value="#{bundle.RemandListLink}" /></li>
-                        <li><h:link outcome="/incarcerate/Create"
-                                    value="#{bundle.CreateIncarcerationTitle}" /></li>
+                        <li><h:link outcome="/incarcerate/List"><span>#{bundle.ListIncarcerationLink}</span></h:link></li>
+                        <li><h:link outcome="/incarcerate/Create"><span>#{bundle.CreateIncarcerationTitle}</span></h:link></li>
                      </ul>
-                 </li>
-                 <li>Incarceration motives
+               </li><!--
+            --><li><span>Incarceration motives</span>
                     <ul>
-                        <li><h:link outcome="/motive/List" value="#{bundle.MotiveList}" /></li>
-                        <li><h:link outcome="/motive/Create" value="#{bundle.MotiveCreate}" /></li>
+                        <li><h:link outcome="/motive/List"><span>#{bundle.MotiveList}</span></h:link></li>
+                        <li><h:link outcome="/motive/Create"><span>#{bundle.MotiveCreate}</span></h:link></li>
                      </ul>
-                 </li>
-                 <li><h:link outcome="/judicialDecision/Create"
-                             value="#{bundle.JudicialDecisionCreate_Link}" /></li>
+                 </li><!--
+              --><li><h:link outcome="/judicialDecision/Create"><span>#{bundle.JudicialDecisionCreate_Link}</span></h:link></li>
             </ul>
         </nav>
-        
+     
         <article id="mainContent">
             <ui:insert name="body">Default Body</ui:insert>
         </article>

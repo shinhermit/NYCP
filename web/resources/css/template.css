@@ -1,26 +1,76 @@
-/*
-Copyright (C) 2014 josuah
+body{
+  width: 960px; 
+  margin: 0 auto; 
+}
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+nav {
+    margin-bottom: 10px;
+}
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+nav * {
+    margin: 0;
+    padding: 0;
+}
 
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-/* 
-    Created on : 20 oct. 2014, 18:17:50
-    Author     : josuah
-*/
+nav ul {
+    border: 1px solid #3a4f54;
+}
 
-body
-{
-  width: 800px; 
-  margin: auto; 
+nav li {
+    display: inline-block;
+    position: relative;
+    height: 30px;
+    width: 238px;
+    list-style: none;
+    vertical-align: top;
+    background: #dfecf1;
+    border-left: 1px solid #3a4f54;
+}
+
+nav li:first-child, nav li li {
+    border-left: 0;
+}
+
+nav li ul {
+    display: none;
+    position: absolute;
+    left: -1px;
+    top: 30px;
+}
+
+nav li:hover ul {
+    display: block;
+}
+
+nav a {
+    display: block;
+    height: 30px;
+    width: 238px;
+    text-decoration: none;
+    color: #3a4f54;
+}
+
+nav span {
+    display: block;
+    background: #dfecf1;
+    font-size: 1.3em;
+    width: 228px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    padding: 0 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+nav a:hover span {
+    background: #3a4f54;
+    color: #dfecf1;
+}
+
+nav li li span {
+    font-size: 1.2em;
+    text-align: left;
+    text-transform: initial;
+    font-weight: normal;
 }
