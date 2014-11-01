@@ -17,11 +17,17 @@
 
 package service.local;
 
+import entity.Conviction;
 import entity.CriminalCase;
+import entity.FinalDischarge;
 import entity.Incarceration;
+import entity.JudicialDecision;
 import entity.Prisoner;
+import entity.ShortenedSentence;
 import java.util.List;
 import javax.ejb.Local;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 
 /**
  * The remote interface for the services allowing to retrive an entity.
@@ -30,6 +36,7 @@ import javax.ejb.Local;
  * @author Émilien Arino
  */
 @Local
+@TransactionAttribute(TransactionAttributeType.NOT_SUPPORTED)
 public interface EntityRetriverLocal
 {
     /**
@@ -46,6 +53,12 @@ public interface EntityRetriverLocal
     public List<Prisoner> findAllPrisoners();
     
     /**
+     * Retrieves the list of incarcerated prisoners which are on remand.
+     * @return the list of incarcerated prisoners which are on remand.
+     */
+    public List<Prisoner> findPrisonersOnRemand();
+    
+    /**
      * Retrieves a criminal case based on the case number and the original jurisdiction.
      * @param caseNumber the file number of the criminal case.
      * @param jurisdictionName the original jurisdiction of the crime.
@@ -60,5 +73,75 @@ public interface EntityRetriverLocal
      */
     public Incarceration findIncarceration(String prisonFileNumber);
     
-    public List<Prisoner> findPrisonersOnRemand();
+    /**
+     * Finds all the incarcerations registered.
+     * @return all the incarcerations registered.
+     */
+    public List<Incarceration> findAllIncarcerations();
+    
+    /**
+     * Finds the list of all incarcerations, those which are at
+     * positions going from from start index to end index.
+     * @param startIndex the start position of the look up.
+     * @param endIndex the ending position of the look up.
+     * @return the list of all incarcerations, those which are at
+     * positions going from from start index to end index.
+     */
+    public List<Incarceration> findIncarcerationsInRange(int startIndex, int endIndex);
+    
+    /**
+     * Retrieves all the decision concerning a prisoner.
+     * @param prisonFileNumber the file number of the prisoner of which we want the existing decisions.
+     * @return all the decision concerning a prisoner.
+     */
+    public List<JudicialDecision> findJudicialDecisions(String prisonFileNumber);
+    
+    /**
+     * Retrieves all the decision concerning a prisoner.
+     * @param prisoner the prisoner of which we want the existing decisions.
+     * @return all the decision concerning a prisoner.
+     */
+    public List<JudicialDecision> findJudicialDecisions(Prisoner prisoner);
+    
+    /**
+     * Retrieves the conviction decision that has been taken for the specified prisoner.
+     * @param prisonFileNumber the file number of the prisoner of which the conviction decision is requested.
+     * @return if a conviction decision has been taken for the specified prisoner, this conviction decision, null otherwise.
+     */
+    public Conviction findConvictionDecision(String prisonFileNumber);
+    
+    /**
+     * Retrieves the conviction decision that has been taken for the specified prisoner.
+     * @param prisoner the prisoner of which the conviction decision is requested.
+     * @return if a conviction decision has been taken for the specified prisoner, this conviction decision, null otherwise.
+     */
+    public Conviction findConvictionDecision(Prisoner prisoner);
+    
+    /**
+     * Retrieves the final discharge decision that has been taken for the specified prisoner.
+     * @param prisonFileNumber the file number of the prisoner of which the final discharge decision is requested.
+     * @return if a final discharge decision has been taken for the specified prisoner, this final discharge decision, null otherwise.
+     */
+    public FinalDischarge findDischargeDecision(String prisonFileNumber);
+    
+    /**
+     * Retrieves the final discharge decision that has been taken for the specified prisoner.
+     * @param prisoner the prisoner of which the final discharge decision is requested.
+     * @return if a final discharge decision has been taken for the specified prisoner, this final discharge decision, null otherwise.
+     */
+    public FinalDischarge findDischargeDecision(Prisoner prisoner);
+    
+    /**
+     * Retrieves the sentence shortening decisions that has been taken for the specified prisoner.
+     * @param prisonFileNumber the file number of the prisoner of which the sentence shortening decisions are requested.
+     * @return if sentence shortening decisions have been taken for the specified prisoner, these sentence shortening decisions, null otherwise.
+     */
+    public List<ShortenedSentence> findShorteningDecisions(String prisonFileNumber);
+    
+    /**
+     * Retrieves the sentence shortening decisions that has been taken for the specified prisoner.
+     * @param prisoner the prisoner of which the sentence shortening decisions are requested.
+     * @return if sentence shortening decisions have been taken for the specified prisoner, these sentence shortening decisions, null otherwise.
+     */
+    public List<ShortenedSentence> findShorteningDecisions(Prisoner prisoner);
 }

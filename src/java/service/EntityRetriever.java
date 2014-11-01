@@ -17,9 +17,13 @@
 
 package service;
 
+import entity.Conviction;
 import entity.CriminalCase;
+import entity.FinalDischarge;
 import entity.Incarceration;
+import entity.JudicialDecision;
 import entity.Prisoner;
+import entity.ShortenedSentence;
 import entity.primaryKeys.CriminalCasePK;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -59,27 +63,11 @@ public class EntityRetriever implements EntityRetriverLocal
     {
         return this.entityManager.createNamedQuery("Prisoner.findAll").getResultList();
     }
-
-    @Override
-    public CriminalCase findCriminalCase(String caseNumber, String jurisdictionName)
-    {
-        assert(entityManager != null);
-        
-        return entityManager.find(CriminalCase.class,
-                new CriminalCasePK(caseNumber,jurisdictionName));
-    }
-
-    @Override
-    public Incarceration findIncarceration(String prisonFileNumber)
-    {
-        assert(entityManager != null);
-        
-        return entityManager.find(Incarceration.class, prisonFileNumber);
-    }
     
     @Override
     public List<Prisoner> findPrisonersOnRemand()
     {
+//        return this.entityManager.createNamedQuery("Prisoner.findOnRemand").getResultList();
         //SELECT p FROM Prisoner p WHERE NOT EXISTS 
         //(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j 
         //WHERE p2.prisonFileNumber = p.prisonFileNumber)
@@ -106,5 +94,130 @@ public class EntityRetriever implements EntityRetriverLocal
                 .where(criteriaBuilder.not(criteriaBuilder.exists(subQuery)));
         
         return entityManager.createQuery(mainQuery).getResultList();
+    }
+
+    @Override
+    public CriminalCase findCriminalCase(String caseNumber, String jurisdictionName)
+    {
+        assert(entityManager != null);
+        
+        return entityManager.find(CriminalCase.class,
+                new CriminalCasePK(caseNumber,jurisdictionName));
+    }
+
+    @Override
+    public Incarceration findIncarceration(String prisonFileNumber)
+    {
+        assert(entityManager != null);
+        
+        return entityManager.find(Incarceration.class, prisonFileNumber);
+    }
+
+    @Override
+    public List<Incarceration> findAllIncarcerations()
+    {
+        javax.persistence.criteria.CriteriaQuery criteriaQuery =
+                entityManager.getCriteriaBuilder().createQuery();
+        
+        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
+        
+        return entityManager.createQuery(criteriaQuery).getResultList();
+    }
+
+    @Override
+    public List<Incarceration> findIncarcerationsInRange(int startIndex, int endIndex)
+    {
+        javax.persistence.criteria.CriteriaQuery criteriaQuery =
+                entityManager.getCriteriaBuilder().createQuery();
+        
+        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
+        
+        javax.persistence.Query query = entityManager.createQuery(criteriaQuery);
+        
+        query.setMaxResults(endIndex - startIndex + 1);
+        query.setFirstResult(startIndex);
+        
+        return query.getResultList();
+    }
+
+    @Override
+    public List<JudicialDecision> findJudicialDecisions(String prisonFileNumber)
+    {
+        return entityManager.createNamedQuery("JudicialDecision.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+    }
+
+    @Override
+    public List<JudicialDecision> findJudicialDecisions(Prisoner prisoner)
+    {
+        return findJudicialDecisions(prisoner.getPrisonFileNumber());
+    }
+
+    @Override
+    public Conviction findConvictionDecision(String prisonFileNumber)
+    {
+        Conviction decision = null;
+        
+        List<Conviction> allDecisions = entityManager.createNamedQuery("Conviction.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+        
+        if(allDecisions != null)
+        {
+            if(!allDecisions.isEmpty())
+            {
+                decision = allDecisions.get(0);
+            }
+        }
+        
+        return decision;
+    }
+
+    @Override
+    public Conviction findConvictionDecision(Prisoner prisoner)
+    {
+        return findConvictionDecision(prisoner.getPrisonFileNumber());
+    }
+
+    @Override
+    public FinalDischarge findDischargeDecision(String prisonFileNumber)
+    {
+        FinalDischarge decision = null;
+        
+        List<FinalDischarge> allDecisions =
+                entityManager.createNamedQuery("FinalDischarge.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+        
+        if(allDecisions != null)
+        {
+            if(!allDecisions.isEmpty())
+            {
+                decision = allDecisions.get(0);
+            }
+        }
+        
+        return decision;
+    }
+
+    @Override
+    public FinalDischarge findDischargeDecision(Prisoner prisoner)
+    {
+        return findDischargeDecision(prisoner.getPrisonFileNumber());
+    }
+
+    @Override
+    public List<ShortenedSentence> findShorteningDecisions(String prisonFileNumber)
+    {
+        return entityManager.createNamedQuery("findShortening.findByPrisonFileNumber")
+                .setParameter("prisonFileNumber", prisonFileNumber)
+                .getResultList();
+    }
+
+    @Override
+    public List<ShortenedSentence> findShorteningDecisions(Prisoner prisoner)
+    {
+        return findShorteningDecisions(prisoner.getPrisonFileNumber());
     }
 }

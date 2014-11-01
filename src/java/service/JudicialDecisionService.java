@@ -19,11 +19,9 @@ package service;
 
 import entity.Conviction;
 import entity.FinalDischarge;
-import entity.JudicialDecision;
 import entity.Prisoner;
 import entity.ShortenedSentence;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -127,86 +125,5 @@ public class JudicialDecisionService implements JudicialDecisionLocal
     {
         return shortenSentence(prisoner.getPrisonFileNumber(), dateOfDecision,
                 duration);
-    }
-
-    @Override
-    public List<JudicialDecision> findAll(String prisonFileNumber)
-    {
-        return entityManager.createNamedQuery("JudicialDecision.findByPrisonFileNumber")
-                .setParameter("prisonFileNumber", prisonFileNumber)
-                .getResultList();
-    }
-
-    @Override
-    public List<JudicialDecision> findAll(Prisoner prisoner)
-    {
-        return findAll(prisoner.getPrisonFileNumber());
-    }
-
-    @Override
-    public Conviction findConviction(String prisonFileNumber)
-    {
-        Conviction decision = null;
-        
-        List<Conviction> allDecisions = entityManager.createNamedQuery("Conviction.findByPrisonFileNumber")
-                .setParameter("prisonFileNumber", prisonFileNumber)
-                .getResultList();
-        
-        if(allDecisions != null)
-        {
-            if(!allDecisions.isEmpty())
-            {
-                decision = allDecisions.get(0);
-            }
-        }
-        
-        return decision;
-    }
-
-    @Override
-    public Conviction findConviction(Prisoner prisoner)
-    {
-        return findConviction(prisoner.getPrisonFileNumber());
-    }
-
-    @Override
-    public FinalDischarge findDischarge(String prisonFileNumber)
-    {
-        FinalDischarge decision = null;
-        
-        List<FinalDischarge> allDecisions =
-                entityManager.createNamedQuery("FinalDischarge.findByPrisonFileNumber")
-                .setParameter("prisonFileNumber", prisonFileNumber)
-                .getResultList();
-        
-        if(allDecisions != null)
-        {
-            if(!allDecisions.isEmpty())
-            {
-                decision = allDecisions.get(0);
-            }
-        }
-        
-        return decision;
-    }
-
-    @Override
-    public FinalDischarge findDischarge(Prisoner prisoner)
-    {
-        return findDischarge(prisoner.getPrisonFileNumber());
-    }
-
-    @Override
-    public List<ShortenedSentence> findShortening(String prisonFileNumber)
-    {
-        return entityManager.createNamedQuery("findShortening.findByPrisonFileNumber")
-                .setParameter("prisonFileNumber", prisonFileNumber)
-                .getResultList();
-    }
-
-    @Override
-    public List<ShortenedSentence> findShortening(Prisoner prisoner)
-    {
-        return findShortening(prisoner.getPrisonFileNumber());
     }
 }

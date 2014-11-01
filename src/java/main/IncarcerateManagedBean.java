@@ -80,7 +80,7 @@ public class IncarcerateManagedBean
     
     public List<Incarceration> getItems() 
     {
-        return incarcerateService.findAll();
+        return entityRetriver.findAllIncarcerations();
     }
 
     public Prisoner getPrisoner()

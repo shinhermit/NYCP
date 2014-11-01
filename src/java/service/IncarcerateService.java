@@ -79,32 +79,5 @@ public class IncarcerateService implements IncarcerateLocal
                 crime.getCriminalCasePK().getJurisdictionName(),
                 crime.getDateOfCriminalCase());
     }
-
-    @Override
-    public List<Incarceration> findAll()
-    {
-        javax.persistence.criteria.CriteriaQuery criteriaQuery =
-                entityManager.getCriteriaBuilder().createQuery();
-        
-        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
-        
-        return entityManager.createQuery(criteriaQuery).getResultList();
-    }
-
-    @Override
-    public List<Incarceration> findInRange(int startIndex, int endIndex)
-    {
-        javax.persistence.criteria.CriteriaQuery criteriaQuery =
-                entityManager.getCriteriaBuilder().createQuery();
-        
-        criteriaQuery.select( criteriaQuery.from(Incarceration.class) );
-        
-        javax.persistence.Query query = entityManager.createQuery(criteriaQuery);
-        
-        query.setMaxResults(endIndex - startIndex + 1);
-        query.setFirstResult(startIndex);
-        
-        return query.getResultList();
-    }
 }
     

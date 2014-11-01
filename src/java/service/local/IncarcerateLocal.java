@@ -52,20 +52,4 @@ public interface IncarcerateLocal
      */
     public void incarcerate(Prisoner prisoner, CriminalCase crime, Motive motive,
             Date dateOfIncarceration);
-    
-    /**
-     * Finds all the incarcerations registered.
-     * @return all the incarcerations registered.
-     */
-    public List<Incarceration> findAll();
-    
-    /**
-     * Finds the list of all incarcerations, those which are at
-     * positions going from from start index to end index.
-     * @param startIndex the start position of the look up.
-     * @param endIndex the ending position of the look up.
-     * @return the list of all incarcerations, those which are at
-     * positions going from from start index to end index.
-     */
-    public List<Incarceration> findInRange(int startIndex, int endIndex);
 }
