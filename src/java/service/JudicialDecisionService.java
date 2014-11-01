@@ -47,13 +47,17 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     {
         assert(entityManager != null);
         
+        Conviction decision = null;
+        
         Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
-        
-        Conviction decision = new Conviction(prisonFileNumber, dateOfDecision);
-        decision.setPrisoner(prisoner);
-        decision.setDuration(duration);
-        
-        entityManager.persist(decision);
+        if(prisoner != null)
+        {
+            decision = new Conviction(prisonFileNumber, dateOfDecision);
+            decision.setPrisoner(prisoner);
+            decision.setDuration(duration);
+
+            entityManager.persist(decision);
+        }
         
         return decision;
     }
@@ -71,14 +75,18 @@ public class JudicialDecisionService implements JudicialDecisionRemote
             Date dateOfDecision, Date dateOfDischarge)
     {
         assert(entityManager != null);
+        FinalDischarge decision = null;
         
         Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
         
-        FinalDischarge decision = new FinalDischarge(prisonFileNumber, dateOfDecision);
-        decision.setPrisoner(prisoner);
-        decision.setDateOfFinalDischarge(dateOfDischarge);
-        
-        entityManager.persist(decision);
+        if(prisoner != null)
+        {
+            decision = new FinalDischarge(prisonFileNumber, dateOfDecision);
+            decision.setPrisoner(prisoner);
+            decision.setDateOfFinalDischarge(dateOfDischarge);
+
+            entityManager.persist(decision);
+        }
         
         return decision;
     }
@@ -97,13 +105,18 @@ public class JudicialDecisionService implements JudicialDecisionRemote
     {
         assert(entityManager != null);
         
+        ShortenedSentence decision = null;
+        
         Prisoner prisoner = entityManager.find(Prisoner.class, prisonFileNumber);
         
-        ShortenedSentence decision = new ShortenedSentence(prisonFileNumber, dateOfDecision);
-        decision.setPrisoner(prisoner);
-        decision.setDuration(duration);
-        
-        entityManager.persist(decision);
+        if(prisoner != null)
+        {
+            decision = new ShortenedSentence(prisonFileNumber, dateOfDecision);
+            decision.setPrisoner(prisoner);
+            decision.setDuration(duration);
+
+            entityManager.persist(decision);
+        }
         
         return decision;
     }
