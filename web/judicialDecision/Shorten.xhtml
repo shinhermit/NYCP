@@ -7,7 +7,7 @@
 
     <ui:composition template="/template.xhtml">
         <ui:define name="title">
-            <h:outputText value="#{bundle.ShorteningDecisionCreateTitle}"></h:outputText>
+            <h:outputText value="#{bundle.ShorteningDecisionCreate_Title}"></h:outputText>
         </ui:define>
         <ui:define name="body">
             <h:panelGroup id="messagePanel" layout="block">
@@ -19,6 +19,7 @@
                                    for="concernedPrisoner" />
                     <h:selectOneMenu id="concernedPrisoner"
                                      value="#{judicialDecisionManagedBean.selectedPrisoner.prisonFileNumber}">
+                        <f:selectItem itemValue="-1" itemLabel="-- Select a prisoner --" />
                         <f:selectItems value="#{judicialDecisionManagedBean.prisonerList}"
                                        var="prisoner"
                                        itemValue="#{prisoner.prisonFileNumber}"
