@@ -67,33 +67,7 @@ public class EntityRetriever implements EntityRetriverLocal
     @Override
     public List<Prisoner> findPrisonersOnRemand()
     {
-//        return this.entityManager.createNamedQuery("Prisoner.findOnRemand").getResultList();
-        //SELECT p FROM Prisoner p WHERE NOT EXISTS 
-        //(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j 
-        //WHERE p2.prisonFileNumber = p.prisonFileNumber)
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        
-        CriteriaQuery<Prisoner> mainQuery = criteriaBuilder.createQuery(Prisoner.class);
-        Root<Prisoner> mainTabPrisoner =  mainQuery.from(Prisoner.class);
-        
-        // Get join attribute
-        Metamodel model = entityManager.getMetamodel();
-        ManagedType<Prisoner> metaPrisoner = model.managedType(Prisoner.class);
-        SetAttribute attrJudicialDecisionSet = 
-                metaPrisoner.getSet("judicialDecisionSet");
-        
-        Subquery<Prisoner> subQuery = mainQuery.subquery(Prisoner.class);
-        Root<Prisoner> subTabPrisoner = subQuery.from(Prisoner.class);
-        
-        subQuery.select(subTabPrisoner.join(attrJudicialDecisionSet))
-                .where(criteriaBuilder.equal(
-                        subTabPrisoner.get("prisonFileNumber"),
-                        mainTabPrisoner.get("prisonFileNumber")));
-        
-        mainQuery.select( mainTabPrisoner )
-                .where(criteriaBuilder.not(criteriaBuilder.exists(subQuery)));
-        
-        return entityManager.createQuery(mainQuery).getResultList();
+        return this.entityManager.createNamedQuery("Prisoner.findOnRemand").getResultList();
     }
 
     @Override
