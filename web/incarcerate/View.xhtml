@@ -60,7 +60,7 @@
                             <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>,
                     </h:column>
-                    <h:column>duration: #{conviction.duration}</h:column>
+                    <h:column>duration: #{conviction.duration} jours</h:column>
                 </h:dataTable>
                 
                 <h:outputLabel value="Discharge :" for="dischargeDecision" />
@@ -85,7 +85,7 @@
                             <f:convertDateTime pattern="dd-MM-yyyy" />
                         </h:outputText>,
                     </h:column>
-                    <h:column>duration: #{shortening.duration}</h:column>
+                    <h:column>duration: #{shortening.duration} jours</h:column>
                 </h:dataTable>
                 
             </h:panelGrid>
@@ -107,7 +107,7 @@
             <br />
             <h:link outcome="#{judicialDecisionManagedBean.showShorteningForm()}"
                            value="#{bundle.ListIncarcerationShrotenSentenceLink}"
-                           disabled="#{!incarcerateManagedBean.prisoner.convictions.isEmpty()}">
+                           disabled="#{incarcerateManagedBean.prisoner.convictions.isEmpty()}">
                 <f:param name="prisonFileNumber" value="#{incarcerateManagedBean.prisoner.prisonFileNumber}" />
             </h:link>
         </ui:define>
