@@ -30,6 +30,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.Root;
 import service.local.EntityRetriverLocal;
 
 /**
@@ -62,6 +63,26 @@ public class EntityRetriever implements EntityRetriverLocal
     public List<Prisoner> findPrisonersOnRemand()
     {
         return this.entityManager.createNamedQuery("Prisoner.findOnRemand").getResultList();
+    }
+    
+    @Override
+    public List<Prisoner> findDischargeablePrisoners()
+    {
+        assert(entityManager != null);
+        
+        return this.entityManager
+                .createNamedQuery("Prisoner.findDischargeable")
+                .getResultList();
+    }
+    
+    @Override
+    public List<Prisoner> findShortenablePrisoners()
+    {
+        assert(entityManager != null);
+        
+        return this.entityManager
+                .createNamedQuery("Prisoner.findShortenable")
+                .getResultList();
     }
 
     @Override

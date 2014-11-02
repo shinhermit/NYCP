@@ -129,6 +129,21 @@ public class JudicialDecisionManagedBean
     {
         return this.entityRetriver.findAllPrisoners();
     }
+    
+    public List<Prisoner> getRemandList()
+    {
+        return this.entityRetriver.findPrisonersOnRemand();
+    }
+    
+    public List<Prisoner> getDischargeableList()
+    {
+        return this.entityRetriver.findDischargeablePrisoners();
+    }
+    
+    public List<Prisoner> getShortenableList()
+    {
+        return this.entityRetriver.findShortenablePrisoners();
+    }
 
     public void setPrisoner(Prisoner prisoner)
     {

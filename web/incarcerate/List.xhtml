@@ -72,7 +72,7 @@
                             <h:outputText value="#{prisoner.criminalCase.jurisdictionName}"/>
                         </h:column>
                         
-                        <h:column>
+                        <h:column> <!-- View Details Link -->
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
@@ -82,27 +82,29 @@
                             </h:commandLink>
                         </h:column>
                         
-                        <h:column>
+                        <h:column> <!-- Convict Link -->
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{judicialDecisionManagedBean.showConvictForm}"
-                                           value="#{bundle.ListIncarcerationConvictLink}">
+                                           value="#{bundle.ListIncarcerationConvictLink}"
+                                           disabled="#{!prisoner.convictions.isEmpty()}">
                                 <f:param name="prisonFileNumber" value="#{prisoner.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
                         
-                        <h:column>
+                        <h:column> <!-- Discharge Link -->
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{judicialDecisionManagedBean.showDischargeForm}"
-                                           value="#{bundle.ListIncarcerationDischargeLink}">
+                                           value="#{bundle.ListIncarcerationDischargeLink}"
+                                           disabled="#{!prisoner.discharges.isEmpty()}">
                                 <f:param name="prisonFileNumber" value="#{prisoner.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>
                         
-                        <h:column>
+                        <h:column> <!-- Shorten Link -->
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>

@@ -83,7 +83,7 @@
                         </h:column>
                         
                         <h:column>
-                            <f:facet name="header">
+                            <f:facet name="header"> <!-- Convict Link -->
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{judicialDecisionManagedBean.showConvictForm}"
@@ -92,22 +92,12 @@
                             </h:commandLink>
                         </h:column>
                         
-                        <h:column>
+                        <h:column> <!-- Discharge Link -->
                             <f:facet name="header">
                                 <h:outputText value="&nbsp;"/>
                             </f:facet>
                             <h:commandLink action="#{judicialDecisionManagedBean.showDischargeForm}"
                                            value="#{bundle.ListIncarcerationDischargeLink}">
-                                <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
-                            </h:commandLink>
-                        </h:column>
-                        
-                        <h:column>
-                            <f:facet name="header">
-                                <h:outputText value="&nbsp;"/>
-                            </f:facet>
-                            <h:commandLink action="#{judicialDecisionManagedBean.showShorteningForm}"
-                                           value="#{bundle.ListIncarcerationShrotenSentenceLink}">
                                 <f:param name="prisonFileNumber" value="#{item.prisonFileNumber}" />
                             </h:commandLink>
                         </h:column>

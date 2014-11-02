@@ -60,6 +60,18 @@ public interface EntityRetriverLocal
     public List<Prisoner> findPrisonersOnRemand();
     
     /**
+     * Retrieves the list of prisoners which can be discharged.
+     * @return the list of prisoners which can be discharged.
+     */
+    public List<Prisoner> findDischargeablePrisoners();
+    
+    /**
+     * Retrieves the list of prisoners which can have their sentence shorten.
+     * @return the list of prisoners which can have their sentence shorten.
+     */
+    public List<Prisoner> findShortenablePrisoners();
+    
+    /**
      * Retrieves a criminal case based on the case number and the original jurisdiction.
      * @param caseNumber the file number of the criminal case.
      * @param jurisdictionName the original jurisdiction of the crime.

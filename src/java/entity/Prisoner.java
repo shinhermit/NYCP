@@ -35,10 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Prisoner.findAll", query = "SELECT p FROM Prisoner p"),
-    @NamedQuery(name = "Prisoner.findOnRemand",
-            query = "SELECT p FROM Prisoner p WHERE NOT EXISTS "
-                    + "(SELECT p2 FROM Prisoner p2 JOIN p2.judicialDecisionSet j "
-                    + "WHERE p2.prisonFileNumber = p.prisonFileNumber)"),
+    @NamedQuery(name = "Prisoner.findOnRemand", query = "SELECT p FROM Prisoner p WHERE p.judicialDecisionSet IS EMPTY"),
+    @NamedQuery(name = "Prisoner.findDischargeable", query = "SELECT p FROM Prisoner p WHERE p.discharges IS EMPTY"),
+    @NamedQuery(name = "Prisoner.findShortenable", query = "SELECT p FROM Prisoner p WHERE p.convictions IS NOT EMPTY AND p.discharges IS EMPTY"),
     @NamedQuery(name = "Prisoner.findByPrisonFileNumber", query = "SELECT p FROM Prisoner p WHERE p.prisonFileNumber = :prisonFileNumber"),
     @NamedQuery(name = "Prisoner.findByGivenName", query = "SELECT p FROM Prisoner p WHERE p.givenName = :givenName"),
     @NamedQuery(name = "Prisoner.findBySurname", query = "SELECT p FROM Prisoner p WHERE p.surname = :surname"),
@@ -69,6 +68,18 @@ public class Prisoner implements Serializable
     @Column(name = "PLACE_OF_BIRTH")
     private String placeOfBirth;
     
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "PRISONER_CRIMINAL_CASE",
+               joinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
+               },
+               inverseJoinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
+                   @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
+                   @JoinColumn(name= "JURISDICTION_NAME",     referencedColumnName = "JURISDICTION_NAME"),
+               })
+    private Incarceration incarceration = null;
+    
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "PRISONER_CRIMINAL_CASE",
                joinColumns = {
@@ -83,17 +94,29 @@ public class Prisoner implements Serializable
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "prisoner")
     private Set<JudicialDecision> judicialDecisionSet;
     
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinTable(name = "PRISONER_CRIMINAL_CASE",
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "JUDICIAL_DECISION",
                joinColumns = {
                    @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
                },
                inverseJoinColumns = {
                    @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
-                   @JoinColumn(name = "CRIMINAL_CASE_NUMBER", referencedColumnName = "CRIMINAL_CASE_NUMBER"),
-                   @JoinColumn(name= "JURISDICTION_NAME",     referencedColumnName = "JURISDICTION_NAME"),
+                   @JoinColumn(name = "DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
+                   @JoinColumn(name= "DATE_OF_DECISION",     referencedColumnName = "DATE_OF_DECISION"),
                })
-    private Incarceration incarceration = null;
+    private Set<Conviction> convictions = null;
+    
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "JUDICIAL_DECISION",
+               joinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
+               },
+               inverseJoinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
+                   @JoinColumn(name = "DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
+                   @JoinColumn(name= "DATE_OF_DECISION",     referencedColumnName = "DATE_OF_DECISION"),
+               })
+    private Set<FinalDischarge> discharges = null;
     
     private static final long serialVersionUID = 1L;
     
@@ -228,7 +251,31 @@ public class Prisoner implements Serializable
             this.judicialDecisionSet = new HashSet<>();
         }
         
-        this.judicialDecisionSet.add(decision); // TODO: check for existence
+        this.judicialDecisionSet.add(decision);
+    }
+
+    public Set<Conviction> getConvictions()
+    {
+        return this.convictions != null ?
+                this.convictions :
+                new HashSet<Conviction>();
+    }
+
+    public void setConvictions(Set<Conviction> convictions)
+    {
+        this.convictions = convictions;
+    }
+
+    public Set<FinalDischarge> getDischarges()
+    {
+        return this.discharges != null ?
+                this.discharges :
+                new HashSet<FinalDischarge>();
+    }
+
+    public void setDischarges(Set<FinalDischarge> discharges)
+    {
+        this.discharges = discharges;
     }
    
     @Override

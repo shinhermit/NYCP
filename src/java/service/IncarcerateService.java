@@ -5,7 +5,6 @@ import entity.Incarceration;
 import entity.Motive;
 import entity.Prisoner;
 import java.util.Date;
-import java.util.List;
 import service.local.IncarcerateLocal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

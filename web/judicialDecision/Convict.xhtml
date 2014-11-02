@@ -20,7 +20,7 @@
                     <h:selectOneMenu id="concernedPrisoner"
                                      value="#{judicialDecisionManagedBean.selectedPrisoner.prisonFileNumber}">
                         <f:selectItem itemValue="-1" itemLabel="-- Select a prisoner --" />
-                        <f:selectItems value="#{judicialDecisionManagedBean.prisonerList}"
+                        <f:selectItems value="#{judicialDecisionManagedBean.remandList}"
                                        var="prisoner"
                                        itemValue="#{prisoner.prisonFileNumber}"
                                        itemLabel="[#{prisoner.prisonFileNumber}] #{prisoner.givenName} #{prisoner.surname}" />
