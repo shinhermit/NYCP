@@ -118,6 +118,18 @@ public class Prisoner implements Serializable
                })
     private Set<FinalDischarge> discharges = null;
     
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "JUDICIAL_DECISION",
+               joinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER")
+               },
+               inverseJoinColumns = {
+                   @JoinColumn(name= "PRISON_FILE_NUMBER", referencedColumnName = "PRISON_FILE_NUMBER"),
+                   @JoinColumn(name = "DECISION_TYPE_NUMBER", referencedColumnName = "DECISION_TYPE_NUMBER"),
+                   @JoinColumn(name= "DATE_OF_DECISION",     referencedColumnName = "DATE_OF_DECISION"),
+               })
+    private Set<ShortenedSentence> shortenings = null;
+    
     private static final long serialVersionUID = 1L;
     
     public Prisoner()
@@ -276,6 +288,16 @@ public class Prisoner implements Serializable
     public void setDischarges(Set<FinalDischarge> discharges)
     {
         this.discharges = discharges;
+    }
+
+    public Set<ShortenedSentence> getShortenings()
+    {
+        return shortenings;
+    }
+
+    public void setShortenings(Set<ShortenedSentence> shortenings)
+    {
+        this.shortenings = shortenings;
     }
    
     @Override
