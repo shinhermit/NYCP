@@ -7,11 +7,9 @@
 package service.local;
 
 import entity.CriminalCase;
-import entity.Incarceration;
 import entity.Motive;
 import entity.Prisoner;
 import java.util.Date;
-import java.util.List;
 import javax.ejb.Local;
 
 /**

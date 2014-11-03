@@ -68,4 +68,30 @@ public class NYCPFaces
             SHORTEN = "/judicialDecision/Shorten";
         }
     }
+    
+    /**
+     * Provides the name of the faces of the motives CUD services.
+     */
+    public static class Motive
+    {
+        /** The <i>create new motive</i> face. */
+        public static final String CREATE;
+        
+        /** The <i>edit motive</i> face. */
+        public static final String EDIT;
+        
+        /** The <i>list motives</i> face. */
+        public static final String LIST;
+        
+        /** The <i>view motive</i> face. */
+        public static final String VIEW;
+        
+        static
+        {
+            CREATE = "/motive/Create";
+            EDIT = "/motive/Edit";
+            LIST = "/motive/List";
+            VIEW = "/motive/View";
+        }
+    }
 }

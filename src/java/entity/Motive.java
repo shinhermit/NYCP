@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,14 +36,23 @@ public class Motive implements Serializable
     @Column(name = "MOTIVE_LABEL")
     private String motiveLabel;
     
-    @OneToMany(mappedBy = "motive")
+    @OneToMany(mappedBy = "motive", fetch = FetchType.EAGER)
     private Set<Incarceration> incarcerations;
     
-    public Motive () {}
+    public Motive (String motiveNumber, String motiveLabel)
+    {
+        this.motiveNumber = motiveNumber;
+        this.motiveLabel = motiveLabel;
+    }
+    
+    public Motive ()
+    {
+        this("", "");
+    }
     
     public Motive (String motiveNumber)
     {
-        this.motiveNumber = motiveNumber;
+        this(motiveNumber, "");
     }
     
     public String getMotiveNumber()
@@ -73,7 +83,9 @@ public class Motive implements Serializable
 
     public Set<Incarceration> getIncarcerations()
     {
-        return incarcerations;
+        return this.incarcerations != null ?
+                this.incarcerations :
+                new HashSet<Incarceration>();
     }
 
     public void setIncarcerations(Set<Incarceration> incarcerations)

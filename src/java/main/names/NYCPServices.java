@@ -39,6 +39,9 @@ public class NYCPServices
         /** The name of the entity retriver service bean. */
         public static final String ENTITY_RETRIEVER;
         
+        /** The name of the CUD services for motives. */
+        public static final String MOTIVE;
+        
         static
         {
             INCARCERATION = "ejb/IncarcerateService";
@@ -46,6 +49,8 @@ public class NYCPServices
             JUDICIAL_DECISION = "ejb/JudicialDecisionService";
             
             ENTITY_RETRIEVER = "ejb/EntityRetrieverService";
+            
+            MOTIVE = "ejb/MotiveService";
         }
     }
 }
