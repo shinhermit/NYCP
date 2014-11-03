@@ -100,10 +100,10 @@ public class MotiveManagedBean
     
     public String update()
     {
-        this.updateSelected();
+        String motiveNumber = this.getRequestParameter("motiveNumber");
         
         Motive updated = this.motiveService.updateMotive(
-                this.selected.getMotiveNumber(),
+                motiveNumber,
                 this.selected.getMotiveLabel());
         
         this.selected.setMotiveNumber(updated.getMotiveNumber());
