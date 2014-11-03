@@ -32,6 +32,8 @@ import javax.ejb.TransactionAttributeType;
 
 /**
  * The remote interface for the services allowing to retrive an entity.
+ * The purpose of this service is to allow transaction disabling for read-only
+ * actions.
  * 
  * @author Josuah Aron
  * @author Émilien Arino

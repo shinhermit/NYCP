@@ -28,17 +28,25 @@
                 </h:panelGrid>
                 
                 <br />
-                <h:commandLink action="#{motiveManagedBean.destroy}"
-                               value="#{bundle.ViewMotiveDestroyLink}"
-                               disabled="#{!motiveManagedBean.selected.incarcerations.isEmpty()}">
-                    <f:param name="motiveNumber" value="#{motiveManagedBean.selected.motiveNumber}" />
-                </h:commandLink>
-                <br />
                 <br />
                 <h:commandLink action="#{motiveManagedBean.showUpdateForm}"
                                value="#{bundle.ListMotiveEditLink}">
                     <f:param name="motiveNumber" value="#{motiveManagedBean.selected.motiveNumber}" />
                 </h:commandLink>
+                
+                <br />
+                <br />
+                <h:commandLink action="#{motiveManagedBean.destroy}"
+                               value="#{bundle.ViewMotiveDestroyLink}"
+                               disabled="#{!motiveManagedBean.selected.incarcerations.isEmpty()}">
+                    <f:param name="motiveNumber" value="#{motiveManagedBean.selected.motiveNumber}" />
+                </h:commandLink>
+                
+                <br />
+                <br />
+                <h:commandLink action="#{motiveManagedBean.showCreateForm}"
+                               value="#{bundle.CreateMotiveTitle}"/>
+                
                 <br />
                 <br />
                 <h:commandLink action="List"

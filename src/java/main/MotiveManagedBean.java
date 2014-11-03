@@ -59,9 +59,36 @@ public class MotiveManagedBean
         return params.get(parameterName);
     }
     
+    private void updateSelected()
+    {
+        String motiveNumber = this.getRequestParameter("motiveNumber");
+        
+        if(motiveNumber != null)
+        {
+            Motive entity = this.entityRetriver.findMotive(motiveNumber);
+        
+            this.selected.setMotiveNumber(entity.getMotiveNumber());
+            this.selected.setMotiveLabel(entity.getMotiveLabel());
+        }
+    }
+    
     public Motive getSelected()
     {
         return this.selected;
+    }
+    
+    public String showCreateForm()
+    {
+        this.updateSelected();
+        
+        return NYCPFaces.Motive.CREATE;
+    }
+    
+    public String showUpdateForm()
+    {
+        this.updateSelected();
+        
+        return NYCPFaces.Motive.EDIT;
     }
     
     public String create()
@@ -71,35 +98,31 @@ public class MotiveManagedBean
         return NYCPFaces.Motive.CREATE;
     }
     
-    public String showUpdateForm()
-    {
-        String motiveNumber = this.getRequestParameter("motiveNumber");
-        
-        this.selected = this.entityRetriver.findMotive(motiveNumber);
-        
-        return NYCPFaces.Motive.EDIT;
-    }
-    
     public String update()
     {
-        this.selected = this.motiveService.updateMotive(this.selected.getMotiveNumber(),
+        this.updateSelected();
+        
+        Motive updated = this.motiveService.updateMotive(
+                this.selected.getMotiveNumber(),
                 this.selected.getMotiveLabel());
+        
+        this.selected.setMotiveNumber(updated.getMotiveNumber());
+        this.selected.setMotiveLabel(updated.getMotiveLabel());
         
         return NYCPFaces.Motive.EDIT;
     }
     
     public String view()
     {
-        String motiveNumber = this.getRequestParameter("motiveNumber");
-        this.selected = this.entityRetriver.findMotive(motiveNumber);
+        this.updateSelected();
         
         return NYCPFaces.Motive.VIEW;
     }
     
     public String destroy()
     {
-        String motiveNumber = this.getRequestParameter("motiveNumber");
-        this.motiveService.deleteMotive(motiveNumber);
+        this.updateSelected();
+        this.motiveService.deleteMotive(this.selected.getMotiveNumber());
         
         return NYCPFaces.Motive.LIST;
     }
